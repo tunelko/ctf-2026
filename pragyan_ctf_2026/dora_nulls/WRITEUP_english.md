@@ -1,0 +1,182 @@
+# Dora Nulls
+
+**CTF/platform:** Pragyan CTF 2026
+
+**Category:** Crypto
+
+**Difficulty:** Easy
+
+**Description:** As usual, Blind Dora cannot see the treasure map. Help the Administrator find the treasure.
+
+**Remote:** `ncat --ssl dora-nulls.ctf.prgy.in 1337`
+
+**Flag:** `p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}`
+
+## Description
+
+> As usual, Blind Dora cannot see the treasure map the television remains struck.
+> So Only the Administrator can guide her. If you are truly the Administrator,
+> help Dora find Her treasure And Your Flag.
+
+## Analysis
+
+The service implements a **challenge-response** protocol with AES-ECB, HKDF and HMAC:
+
+```
+                  Client                    Server
+                    │                            │
+                    │──── challenge (8B) ───────→│
+                    │──── username ─────────────→│
+                    │                            │
+                    │←── server_token (8B) ──────│
+                    │                            │
+                    │  navigation_key = HKDF(    │
+                    │    master=password,        │
+                    │    salt=challenge+token)   │
+                    │                            │
+                    │  expected = compute_path(  │
+                    │    key, challenge)         │
+                    │                            │
+                    │──── response (8B) ────────→│
+                    │                            │
+                    │  verify_credential(        │
+                    │    key, expected, response)│
+                    │                            │
+```
+
+The main loop allows up to **0x1337 (4919) iterations**.
+
+### Login flow
+
+1. Client sends **challenge** of 8 bytes
+2. Client sends **username** (`Administrator` for the flag)
+3. Server generates random **server_token** (8 bytes)
+4. Derives `navigation_key` with HKDF (unknown password as master)
+5. Calculates `expected_path` with AES-ECB
+6. Client sends **response** of 8 bytes
+7. Verified with `verify_credential()`
+
+### Vulnerable code
+
+```python
+def verify_credential(session_key, expected, provided):
+    h = HMAC.new(session_key, expected, SHA256)
+    mask = h.digest()[:8]
+
+    checksum = 0
+    for i in range(8):
+        checksum ^= expected[i] ^ provided[i] ^ mask[i]   # ← BUG
+
+    return checksum == 0
+```
+
+## Vulnerability
+
+- **Type**: XOR checksum collapse (weak verification)
+- **Root cause**: The 8 bytes are accumulated with XOR in **a single variable** of 1 byte
+- **Impact**: Security drops from 2⁶⁴ to 2⁸ (from 8 bytes to 1 byte)
+
+### Mathematical demonstration
+
+```
+checksum = (e[0]⊕p[0]⊕m[0]) ⊕ (e[1]⊕p[1]⊕m[1]) ⊕ … ⊕ (e[7]⊕p[7]⊕m[7])
+```
+
+By associativity and commutativity of XOR:
+
+```
+checksum = XOR_all(expected) ⊕ XOR_all(provided) ⊕ XOR_all(mask) = 0
+```
+
+Only needed: **`XOR_all(provided) = XOR_all(expected) ⊕ XOR_all(mask)`**
+
+This is **1 equation of 1 byte** → 256 possible values → probability 1/256 per attempt.
+
+### Success probability
+
+With 4919 attempts available:
+
+```
+P(success) = 1 - (255/256)^4919 ≈ 1 - e^(-19.2) ≈ 1.0 (certainty)
+```
+
+## Exploitation
+
+### Strategy
+
+1. Connect to the service
+2. Repeat: login as `Administrator` with challenge=nulls, response=nulls
+3. Each attempt has 1/256 probability → guaranteed success in ~256 attempts
+
+### Exploit (`solve.py`)
+
+```python
+#!/usr/bin/env python3
+"""
+Dora Nulls — Crypto — Pragyan CTF 2026
+Flag: p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}
+
+Vulnerability: verify_credential() collapses 8 bytes into 1 byte XOR
+Technique:        Brute force 1/256 with ~4919 attempts available
+"""
+from pwn import *
+
+context.log_level = 'error'
+
+r = remote('dora-nulls.ctf.prgy.in', 1337, ssl=True)
+r.recvuntil(b'choose ')
+
+for attempt in range(1000):
+    r.sendline(b'1')                          # login
+    r.recvuntil(b'(hex): ')
+    r.sendline(b'0000000000000000')           # challenge = nulls
+    r.recvuntil(b'username: ')
+    r.sendline(b'Administrator')
+    r.recvuntil(b'(hex): ')
+    r.sendline(b'0000000000000000')           # response = nulls
+
+    result = r.recvline().decode().strip()
+    while not result:
+        result = r.recvline().decode().strip()
+
+    if 'successful' in result:
+        print(f"SUCCESS on attempt {attempt+1}: {result}")
+        for _ in range(5):
+            try:
+                extra = r.recvline(timeout=2).decode().strip()
+                if extra:
+                    print(extra)
+            except:
+                break
+        break
+
+    try:
+        r.recvuntil(b'choose ', timeout=3)
+    except:
+        r.close()
+        r = remote('dora-nulls.ctf.prgy.in', 1337, ssl=True)
+        r.recvuntil(b'choose ')
+
+r.close()
+```
+
+### Execution
+
+```
+$ python3 solve.py
+SUCCESS on attempt 115: authentication successful: Administrator
+flag: p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}
+```
+
+## Flag
+
+```
+p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}
+```
+
+## Lessons Learned
+
+- An accumulative XOR is **never** a secure comparison: it collapses N bytes to 1 byte
+- The correct verification would be byte by byte: `expected[i] ^ mask[i] == provided[i]` for all `i`
+- Always calculate the brute force probability: if attempts >> 1/probability, it's viable
+- The name "nulls" was the direct hint to the solution

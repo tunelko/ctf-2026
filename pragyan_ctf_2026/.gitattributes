@@ -1,0 +1,22 @@
+# Default
+* text=auto eol=lf
+
+# Scripts y código
+*.sh text eol=lf
+*.py text eol=lf
+*.c  text eol=lf
+*.cpp text eol=lf
+*.go text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+
+# Docs
+*.md text eol=lf
+*.txt text eol=lf
+
+# Binarios (no tocar)
+*.wasm binary
+*.bin  binary
+*.exe  binary
+*.zip  binary
+*.gz   binary

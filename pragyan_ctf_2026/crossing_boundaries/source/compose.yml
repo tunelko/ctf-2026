@@ -1,0 +1,33 @@
+name: crossing-boundaries
+services:
+    front_proxy:
+        build:
+            context: front_proxy
+            dockerfile: Dockerfile
+        # volumes:
+        #     - ./front_proxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+        env_file:
+            - front_proxy/.env
+        ports:
+            - "3001:3000"
+        depends_on:
+            - proxy
+            - backend
+
+    proxy:
+        build:
+            context: proxy
+            dockerfile: Dockerfile
+        env_file:
+            - proxy/.env
+        depends_on:
+            - backend
+
+    backend:
+        build:
+            context: backend
+            dockerfile: Dockerfile
+        volumes:
+            - ./backend/db:/db
+        env_file:
+            - backend/.env
