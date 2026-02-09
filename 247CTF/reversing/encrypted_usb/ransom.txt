@@ -1,0 +1,8 @@
+Oh no! Your files are encrypted!
+
+Your files have been encrypted using a secure xor encryption algorithm and are completely unrecoverable!
+
+To decrypt your files, you need your secret encryption key.
+
+To retrieve your secret encryption key, you will need to pay 50 BOTCIINS – otherwise your secret encryption key will be 
+deleted and you will never be able to access your files again!
