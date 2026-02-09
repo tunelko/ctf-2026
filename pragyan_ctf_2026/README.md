@@ -17,14 +17,53 @@ Writeups for challenges solved during Pragyan CTF 2026 (February 6-8, 2026).
 
 ---
 
+## Repository Structure
+
+```
+pragyan_ctf/
+├── README.md
+├── strucpoints.png
+│
+├── crypto/
+│   ├── candles_and_cripto/
+│   ├── dora_nulls/
+│   ├── dum_cows/
+│   └── R0tnoT13/
+│
+├── forensics/
+│   ├── c47chm31fy0uc4n/
+│   ├── epstein_files/
+│   ├── plumbing/
+│   └── whoami/
+│
+├── web/
+│   ├── crossing_boundaries/
+│   ├── domain_registrar/
+│   ├── note_keeper/
+│   ├── picturethis/
+│   ├── server_oc/
+│   └── shadow_fight/
+│
+├── pwn/
+│   ├── dirty_laundry/
+│   ├── pcalc/
+│   ├── talking_mirror/
+│   └── TerviMator/
+│
+└── misc/
+    └── tac-tic-toe/
+
+```
+---
+
 ## PWN
 
 | Challenge | Points | Solved | Writeup |
 |-----------|--------|--------|---------|
-| [Dirty Laundry](#dirty-laundry) | 200 | Feb 6, 2:12 PM | [English](dirty_laundry/WRITEUP_english.md) |
-| [pCalc](#pcalc) | 200 | Feb 6, 2:17 PM | [English](pcalc/WRITEUP_english.md) |
-| [Talking Mirror](#talking-mirror) | 200 | Feb 6, 6:39 PM | [English](talking_mirror/WRITEUP_english.md) |
-| [TerViMator](#tervimator) | 289 | Feb 8, 12:01 AM | [English](TerviMator/WRITEUP_english.md) |
+| [Dirty Laundry](#dirty-laundry) | 200 | Feb 6, 2:12 PM | [English](pwn/dirty_laundry/WRITEUP_english.md) |
+| [pCalc](#pcalc) | 200 | Feb 6, 2:17 PM | [English](pwn/pcalc/WRITEUP_english.md) |
+| [Talking Mirror](#talking-mirror) | 200 | Feb 6, 6:39 PM | [English](pwn/talking_mirror/WRITEUP_english.md) |
+| [TerViMator](#tervimator) | 289 | Feb 8, 12:01 AM | [English](pwn/TerviMator/WRITEUP_english.md) |
 
 ### Dirty Laundry
 **Points:** 200 | **Category:** PWN
@@ -34,7 +73,7 @@ Binary exploitation challenge involving buffer overflow and ROP chain.
 **Techniques:** Stack buffer overflow, ret2libc, ROP gadgets
 **Flag:** `p_ctf{14UnDryHASbEenSUCces$fU11YCOMP1e73d}`
 
-[📄 Writeup](dirty_laundry/WRITEUP_english.md) | [💻 Exploit](dirty_laundry/exploit.py)
+[📄 Writeup](pwn/dirty_laundry/WRITEUP_english.md) | [💻 Exploit](pwn/dirty_laundry/exploit.py)
 
 ---
 
@@ -46,7 +85,7 @@ Python jail escape via chained vulnerabilities.
 **Techniques:** F-string AST bypass, object hierarchy exploitation, audit hook bypass
 **Flag:** `p_ctf{CHA7C4LCisJUst$HorTf0rcaLCUla70r}`
 
-[📄 Writeup](pcalc/WRITEUP_english.md) | [💻 Exploit](pcalc/exploit.py)
+[📄 Writeup](pwn/pcalc/WRITEUP_english.md) | [💻 Exploit](pwn/pcalc/exploit.py)
 
 ---
 
@@ -58,7 +97,7 @@ Format string vulnerability with indirect write via RBP chain.
 **Techniques:** Format string exploitation, RBP chain indirection, GOT overwrite
 **Flag:** `p_ctf{7hETAlk!n6M!RR0RSpOkeONE7OOmANyT!m3S}`
 
-[📄 Writeup](talking_mirror/WRITEUP_english.md) | [💻 Exploit](talking_mirror/solve.py)
+[📄 Writeup](pwn/talking_mirror/WRITEUP_english.md) | [💻 Exploit](pwn/talking_mirror/solve.py)
 
 ---
 
@@ -70,7 +109,7 @@ Virtual machine bytecode exploitation via sign extension bug.
 **Techniques:** Sign extension exploit, arbitrary write, pointer patching
 **Flag:** `p_ctf{tErVIm4TOrT-1000ha$BE3nd3feaT3D}`
 
-[📄 Writeup](TerviMator/WRITEUP_english.md) | [💻 Exploit](TerviMator/exploit_aslr.py)
+[📄 Writeup](pwn/TerviMator/WRITEUP_english.md) | [💻 Exploit](pwn/TerviMator/exploit_aslr.py)
 
 ---
 
@@ -78,13 +117,13 @@ Virtual machine bytecode exploitation via sign extension bug.
 
 | Challenge | Points | Solved | Writeup |
 |-----------|--------|--------|---------|
-| [Domain Registrar](#domain-registrar) | 289 | Feb 6, 6:08 PM | [English](domain_registrar/WRITEUP_english.md) |
-| [Shadow Fight](#shadow-fight) | 200 | Feb 7, 9:36 AM | [English](shadow_fight/WRITEUP_english.md) |
-| [Shadow Fight 2](#shadow-fight-2) | 327 | Feb 7, 9:47 AM | [English](shadow_fight/WRITEUP_english.md) |
-| [Note Keeper](#note-keeper) | 200 | Feb 7, 11:02 AM | [English](note_keeper/WRITEUP_english.md) |
-| [Server OC](#server-oc) | 200 | Feb 7, 11:29 AM | [English](server_oc/WRITEUP_english.md) |
-| [Picture This](#picture-this) | 279 | Feb 8, 10:21 AM | [English](picturethis/WRITEUP_english.md) |
-| [Tac-Tic-Toe](#tac-tic-toe) | 200 | Feb 8 | [English](tac-tic-toe/WRITEUP_english.md) |
+| [Domain Registrar](#domain-registrar) | 289 | Feb 6, 6:08 PM | [English](web/domain_registrar/WRITEUP_english.md) |
+| [Shadow Fight](#shadow-fight) | 200 | Feb 7, 9:36 AM | [English](web/shadow_fight/WRITEUP_english.md) |
+| [Shadow Fight 2](#shadow-fight-2) | 327 | Feb 7, 9:47 AM | [English](web/shadow_fight/WRITEUP_english.md) |
+| [Note Keeper](#note-keeper) | 200 | Feb 7, 11:02 AM | [English](web/note_keeper/WRITEUP_english.md) |
+| [Server OC](#server-oc) | 200 | Feb 7, 11:29 AM | [English](web/server_oc/WRITEUP_english.md) |
+| [Picture This](#picture-this) | 279 | Feb 8, 10:21 AM | [English](web/picturethis/WRITEUP_english.md) |
+
 
 ### Domain Registrar
 **Points:** 289 | **Category:** Web
@@ -94,7 +133,7 @@ Domain registration service with SSRF vulnerability.
 **Techniques:** SSRF, internal service access
 **Flag:** `p_ctf{c@n_nEVer_%ru$T_D0M@!nS_FR0m_p0Ps}`
 
-[📄 Writeup](domain_registrar/WRITEUP_english.md) | [💻 Exploit](domain_registrar/exploit.py)
+[📄 Writeup](web/domain_registrar/WRITEUP_english.md) | [💻 Exploit](web/domain_registrar/exploit.py)
 
 ---
 
@@ -106,7 +145,7 @@ XSS challenge with closed Shadow DOM bypass.
 **Techniques:** Shadow DOM bypass, split-comment XSS, `window.find()` exploitation
 **Flag:** `p_ctf{uRi_iz_js_db76a80a938a9ce3}`
 
-[📄 Writeup](shadow_fight/WRITEUP_english.md) | [💻 Exploit](shadow_fight/exploit.py)
+[📄 Writeup](web/shadow_fight/WRITEUP_english.md) | [💻 Exploit](web/shadow_fight/exploit.py)
 
 ---
 
@@ -118,7 +157,7 @@ Advanced XSS with split-comment technique.
 **Techniques:** Split-comment XSS (`/*` and `*/` in different params)
 **Flag:** `p_ctf{admz_nekki_kekw_c6e194c17f2405c5}`
 
-[📄 Writeup](shadow_fight/WRITEUP_english.md) | [💻 Exploit](shadow_fight/exploit_2.py)
+[📄 Writeup](web/shadow_fight/WRITEUP_english.md) | [💻 Exploit](web/shadow_fight/exploit_2.py)
 
 ---
 
@@ -130,7 +169,7 @@ Next.js middleware bypass chain.
 **Techniques:** CVE-2025-29927, CVE-2025-57822, middleware bypass
 **Flag:** `p_ctf{Ju$t_u$e_VITE_e111d821}`
 
-[📄 Writeup](note_keeper/WRITEUP_english.md) | [💻 Exploit](note_keeper/exploit.py)
+[📄 Writeup](web/note_keeper/WRITEUP_english.md) | [💻 Exploit](web/note_keeper/exploit.py)
 
 ---
 
@@ -142,7 +181,7 @@ Multi-stage web exploitation chain.
 **Techniques:** JWT alg=none bypass, prototype pollution, SSRF
 **Flag:** `p_ctf{L!qU1d_H3L1um_$h0ulD_N0T_T0uch_$3rv3rs}`
 
-[📄 Writeup](server_oc/WRITEUP_english.md) | [💻 Exploit](server_oc/exploit.py)
+[📄 Writeup](web/server_oc/WRITEUP_english.md) | [💻 Exploit](web/server_oc/exploit.py)
 
 ---
 
@@ -154,19 +193,16 @@ JPEG polyglot with DOM clobbering.
 **Techniques:** JPEG polyglot, DOM clobbering, CDN extension mismatch
 **Flag:** `p_ctf{i_M!ss#d_Th#_JPG_5f899f05}`
 
-[📄 Writeup](picturethis/WRITEUP_english.md) | [💻 Exploit](picturethis/solve.py)
+[📄 Writeup](web/picturethis/WRITEUP_english.md) | [💻 Exploit](web/picturethis/solve.py)
 
 ---
 
-### Tac-Tic-Toe
-**Points:** 200 | **Category:** Web
+## Crossing Boundaries
 
-WASM patching to defeat unbeatable AI.
+This challenges was solved out of time. 
 
-**Techniques:** WebAssembly patching, minimax algorithm inversion
-**Flag:** `p_ctf{W@sM@_!s_Fas&t_Bu?_$ecur!ty}`
-
-[📄 Writeup](tac-tic-toe/WRITEUP_english.md) | [💻 Exploit](tac-tic-toe/solve.js)
+- **Crossing Boundaries** (Web) - HTTP Request Smuggling
+  [📄 Writeup](web/crossing_boundaries/WRITEUP_english.md)
 
 ---
 
@@ -174,10 +210,10 @@ WASM patching to defeat unbeatable AI.
 
 | Challenge | Points | Solved | Writeup |
 |-----------|--------|--------|---------|
-| [Dora Nulls](#dora-nulls) | 200 | Feb 6, 5:55 PM | [English](dora_nulls/WRITEUP_english.md) |
-| [R0tnoT13](#r0tnot13) | 200 | Feb 7, 9:42 AM | [English](R0tnoT13/WRITEUP_english.md) |
-| [DumCows](#dumcows) | 200 | Feb 7, 12:11 PM | [English](dum_cows/WRITEUP_english.md) |
-| [Candles and Crypto](#candles-and-crypto) | 200 | Feb 7, 5:23 PM | [English](candles_and_cripto/WRITEUP_english.md) |
+| [Dora Nulls](#dora-nulls) | 200 | Feb 6, 5:55 PM | [English](crypto/dora_nulls/WRITEUP_english.md) |
+| [R0tnoT13](#r0tnot13) | 200 | Feb 7, 9:42 AM | [English](crypto/R0tnoT13/WRITEUP_english.md) |
+| [DumCows](#dumcows) | 200 | Feb 7, 12:11 PM | [English](crypto/dum_cows/WRITEUP_english.md) |
+| [Candles and Crypto](#candles-and-crypto) | 200 | Feb 7, 5:23 PM | [English](crypto/candles_and_cripto/WRITEUP_english.md) |
 
 ### Dora Nulls
 **Points:** 200 | **Category:** Crypto
@@ -187,7 +223,7 @@ Cryptographic puzzle involving null bytes.
 **Techniques:** Null byte manipulation, custom cipher analysis
 **Flag:** `p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}`
 
-[📄 Writeup](dora_nulls/WRITEUP_english.md) | [💻 Exploit](dora_nulls/solve.py)
+[📄 Writeup](crypto/dora_nulls/WRITEUP_english.md) | [💻 Exploit](crypto/dora_nulls/solve.py)
 
 ---
 
@@ -199,7 +235,7 @@ State reconstruction from XOR-rotation leaks.
 **Techniques:** Linear algebra over GF(2), Z3 constraint solving, ROTL interpretation
 **Flag:** `p_ctf{l1nyrl34k}`
 
-[📄 Writeup](R0tnoT13/WRITEUP_english.md) | [💻 Exploit](R0tnoT13/solve_z3.py)
+[📄 Writeup](crypto/R0tnoT13/WRITEUP_english.md) | [💻 Exploit](crypto/R0tnoT13/solve_z3.py)
 
 ---
 
@@ -211,7 +247,7 @@ XOR stream cipher with keystream reuse.
 **Techniques:** Known-plaintext attack, keystream extraction
 **Flag:** `p_ctf{Giv3_sm-H20-t0_C0WSS:./}`
 
-[📄 Writeup](dum_cows/WRITEUP_english.md) | [💻 Exploit](dum_cows/solve.py)
+[📄 Writeup](crypto/dum_cows/WRITEUP_english.md) | [💻 Exploit](crypto/dum_cows/solve.py)
 
 ---
 
@@ -223,7 +259,7 @@ Polynomial hash zero attack for signature forgery.
 **Techniques:** Polynomial hash collision, brute force suffix generation
 **Flag:** `p_ctf{3l0w-tH3_c4Ndl35.h4VE=-tHe_CaK3!!}`
 
-[📄 Writeup](candles_and_cripto/WRITEUP_english.md) | [💻 Exploit](candles_and_cripto/exploit.py)
+[📄 Writeup](crypto/candles_and_cripto/WRITEUP_english.md) | [💻 Exploit](crypto/candles_and_cripto/exploit.py)
 
 ---
 
@@ -231,10 +267,10 @@ Polynomial hash zero attack for signature forgery.
 
 | Challenge | Points | Solved | Writeup |
 |-----------|--------|--------|---------|
-| [Plumbing](#plumbing) | 200 | Feb 7, 10:27 AM | [English](plumbing/WRITEUP_english.md) |
-| [$whoami](#whoami) | 400 | Feb 7, 11:39 AM | [English](whoami/WRITEUP_english.md) |
-| [Epstein Files](#epstein-files) | 265 | Feb 7, 5:54 PM | [English](epstein_files/WRITEUP_english.md) |
-| [c47chm31fy0uc4n](#c47chm31fy0uc4n) | 439 | Feb 8, 11:03 AM | [English](c47chm31fy0uc4n/WRITEUP_english.md) |
+| [Plumbing](#plumbing) | 200 | Feb 7, 10:27 AM | [English](forensics/plumbing/WRITEUP_english.md) |
+| [$whoami](#whoami) | 400 | Feb 7, 11:39 AM | [English](forensics/whoami/WRITEUP_english.md) |
+| [Epstein Files](#epstein-files) | 265 | Feb 7, 5:54 PM | [English](forensics/epstein_files/WRITEUP_english.md) |
+| [c47chm31fy0uc4n](#c47chm31fy0uc4n) | 439 | Feb 8, 11:03 AM | [English](forensics/c47chm31fy0uc4n/WRITEUP_english.md) |
 
 ### Plumbing
 **Points:** 200 | **Category:** Forensics
@@ -244,7 +280,7 @@ Docker forensics challenge.
 **Techniques:** Docker layer analysis, file system forensics
 **Flag:** `p_ctf{d0ck3r_l34k5_p1p3l1n35}`
 
-[📄 Writeup](plumbing/WRITEUP_english.md)
+[📄 Writeup](forensics/plumbing/WRITEUP_english.md)
 
 ---
 
@@ -256,7 +292,7 @@ Network forensics with NTLMv2 hash cracking.
 **Techniques:** NTLMv2 hash extraction, hashcat, timestamp analysis
 **Flag:** `p_ctf{t.stark:Arcadia1451606400}`
 
-[📄 Writeup](whoami/WRITEUP_english.md) | [💻 Exploit](whoami/exploit.py)
+[📄 Writeup](forensics/whoami/WRITEUP_english.md) | [💻 Exploit](forensics/whoami/exploit.py)
 
 ---
 
@@ -268,7 +304,7 @@ PDF steganography and PGP decryption.
 **Techniques:** PDF hidden data, XOR decryption, PGP symmetric encryption, ROT18
 **Flag:** `p_ctf{41n7_n0_w4y_h3_5u1c1d3}`
 
-[📄 Writeup](epstein_files/WRITEUP_english.md) | [💻 Exploit](epstein_files/solve.py)
+[📄 Writeup](forensics/epstein_files/WRITEUP_english.md) | [💻 Exploit](forensics/epstein_files/solve.py)
 
 ---
 
@@ -280,7 +316,7 @@ Memory forensics with Volatility3.
 **Techniques:** Volatility3, memory dump analysis, process forensics, heap reconstruction
 **Flag:** `p_ctf{heap_and_rwx_never_lie:1769853900:10.13.37.7:57540}`
 
-[📄 Writeup](c47chm31fy0uc4n/WRITEUP_english.md)
+[📄 Writeup](forensics/c47chm31fy0uc4n/WRITEUP_english.md)
 
 ---
 
@@ -289,6 +325,7 @@ Memory forensics with Volatility3.
 | Challenge | Points | Solved | Writeup |
 |-----------|--------|--------|---------|
 | [Lost in the Haze](#lost-in-the-haze) | 200 | Feb 8, 11:10 AM | - |
+| [Tac-Tic-Toe](#tac-tic-toe) | 200 | Feb 8 | [English](misc/tac-tic-toe/WRITEUP_english.md) |
 
 ### Lost in the Haze
 **Points:** 200 | **Category:** Misc
@@ -299,18 +336,19 @@ Miscellaneous challenge.
 
 ---
 
-## Additional Challenges
+### Tac-Tic-Toe
+**Points:** 200 | **Category:** Misc
 
-These challenges were also solved but not listed in the scoreboard screenshot:
+WASM patching to defeat unbeatable AI.
 
-- **Crossing Boundaries** (Web) - HTTP Request Smuggling
-  [📄 Writeup](crossing_boundaries/WRITEUP_english.md)
+**Techniques:** WebAssembly patching, minimax algorithm inversion
+**Flag:** `p_ctf{W@sM@_!s_Fas&t_Bu?_$ecur!ty}`
 
----
+[📄 Writeup](misc/tac-tic-toe/WRITEUP_english.md) | [💻 Exploit](misc/tac-tic-toe/solve.js)
+
 
 ## Statistics
 
-- **Total Points:** 4,685
 - **Challenges Solved:** 20
 - **Time Span:** February 6-8, 2026 (3 days)
 
@@ -354,34 +392,7 @@ These challenges were also solved but not listed in the scoreboard screenshot:
 
 ---
 
-## Repository Structure
-
-```
-pragyan_ctf/
-├── README.md                    # This file
-├── strucpoints.png             # Scoreboard screenshot
-├── dirty_laundry/              # PWN challenges
-├── pcalc/
-├── talking_mirror/
-├── TerviMator/
-├── domain_registrar/           # Web challenges
-├── shadow_fight/
-├── note_keeper/
-├── server_oc/
-├── picturethis/
-├── tac-tic-toe/
-├── dora_nulls/                 # Crypto challenges
-├── R0tnoT13/
-├── dum_cows/
-├── candles_and_cripto/
-├── plumbing/                   # Forensics challenges
-├── whoami/
-├── epstein_files/
-└── c47chm31fy0uc4n/
-```
-
 Each challenge directory contains:
-- `WRITEUP.md` - Detailed writeup (Spanish)
 - `WRITEUP_english.md` - Detailed writeup (English)
 - `exploit.py` / `solve.py` - Working exploit code
 - Challenge files and supporting materials
