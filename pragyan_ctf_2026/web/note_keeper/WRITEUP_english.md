@@ -230,7 +230,7 @@ The internal Next.js mechanism processes certain headers specially. One of them 
 
 ### Important detail: DO NOT use middleware bypass
 
-Contradicting intuition, the exploit **requires middleware to execute**:
+If we do not use the discovered bypass, contradictorily, we can access the subsequent SSRF to obtain the flag. The exploit **does not requires middleware to execute**:
 
 | Scenario | Result | Reason |
 |-----------|-----------|-------|
