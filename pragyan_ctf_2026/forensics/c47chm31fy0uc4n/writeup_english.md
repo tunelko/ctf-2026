@@ -1,4 +1,4 @@
-# c47chm31fy0uc4n - forensics image writeup 
+# c47chm31fy0uc4n  
 
 **Category:** Forensics
 
@@ -36,8 +36,7 @@ You must correlate process activity, memory artifacts, and session metadata to a
 
 **Flag format:**: p_ctf{<session_key>:<epoch>:<exfiltration_ip>:<ephemeral_remote_execution_port>}
 
-
-
+**Download evidence:** https://drive.google.com/file/d/1LOlj1vNeGKZccLOtMeGhAZi2UR0whuJJ/view?usp=sharing
 ---
 
 ## Overview
