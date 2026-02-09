@@ -1,8 +1,5 @@
 # 247CTF Challenges - Organized by Category
 
-**Date organized:** 2026-02-05
-**Total challenges:** 37
-
 ---
 
 ## Structure
