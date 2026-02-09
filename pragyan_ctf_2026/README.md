@@ -133,7 +133,7 @@ Domain registration service with SSRF vulnerability.
 **Techniques:** SSRF, internal service access
 **Flag:** `p_ctf{c@n_nEVer_%ru$T_D0M@!nS_FR0m_p0Ps}`
 
-[📄 Writeup](web/domain_registrar/WRITEUP_english.md) | [💻 Exploit](web/domain_registrar/exploit.py)
+[📄 Writeup](web/domain_registrar/WRITEUP_english.md)
 
 ---
 

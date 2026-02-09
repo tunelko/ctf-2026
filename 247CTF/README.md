@@ -1,8 +1,10 @@
 # 247CTF Challenges - Organized by Category
 
+Platform: https://247ctf.com/dashboard  
 ---
 
 ## Structure
+
 
 ```
 247CTF/
