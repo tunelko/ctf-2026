@@ -22,7 +22,7 @@ Writeups for challenges solved during Pragyan CTF 2026 (February 6-8, 2026).
 ```
 pragyan_ctf/
 ├── README.md
-├── strucpoints.png
+├── challenges_solved.png
 │
 ├── crypto/
 │   ├── candles_and_cripto/
