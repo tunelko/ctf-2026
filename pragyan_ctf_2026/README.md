@@ -2,7 +2,6 @@
 
 Writeups for challenges solved during Pragyan CTF 2026 (February 6-8, 2026).
 
-**Total Points:** 4,685
 **Challenges Solved:** 20/20
 **Categories:** PWN, Web, Crypto, Forensics, Misc
 
