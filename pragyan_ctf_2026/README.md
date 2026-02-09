@@ -71,7 +71,7 @@ Virtual machine bytecode exploitation via sign extension bug.
 **Techniques:** Sign extension exploit, arbitrary write, pointer patching
 **Flag:** `p_ctf{tErVIm4TOrT-1000ha$BE3nd3feaT3D}`
 
-[📄 Writeup](TerviMator/WRITEUP_english.md) | [💻 Exploit](TerviMator/solve.py)
+[📄 Writeup](TerviMator/WRITEUP_english.md) | [💻 Exploit](TerviMator/exploit_aslr.py)
 
 ---
 
