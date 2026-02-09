@@ -180,7 +180,7 @@ fetch(n + "/notes", { method: "DELETE", headers: {"Content-Type": "text/plain"},
 │  Express Backend (backend:4000)                      │
 │  - GET /stats  → Statistics                          │
 │  - GET /notes  → Note list                           │
-│  - GET /flag   → 🏴 FLAG                             │
+│  - GET /flag   → FLAG                                │
 │  - GET /       → "Hello World!"                      │
 │  - NOT accessible from outside                       │
 └──────────────────────────────────────────────────────┘
@@ -202,13 +202,13 @@ The internal Next.js mechanism processes certain headers specially. One of them 
 - Next.js >= 15.0.0, < 15.4.7
 - Next.js >= 0.9.9, < 14.2.32
 
-**Our target:** Next.js 15.1.1 ✅ (within vulnerable range)
+**Our target:** Next.js 15.1.1 (within vulnerable range)
 
 ### Conditions for exploitation
 
-1. ✅ Middleware passes `request.headers` to `NextResponse.next()`
-2. ✅ Application is self-hosted (not Vercel)
-3. ✅ Internal service accessible from server exists
+1. Middleware passes `request.headers` to `NextResponse.next()`
+2. Application is self-hosted (not Vercel)
+3. Internal service accessible from server exists
 
 ### Attack flow
 
@@ -234,8 +234,8 @@ Contradicting intuition, the exploit **requires middleware to execute**:
 
 | Scenario | Result | Reason |
 |-----------|-----------|-------|
-| **Without** bypass (middleware executes) | ✅ Flag | Middleware passes headers → Next.js processes `Location` |
-| **With** bypass (`x-middleware-subrequest`) | ❌ 405 | Middleware skipped → headers not processed → no SSRF |
+| **Without** bypass (middleware executes) | Flag | Middleware passes headers → Next.js processes `Location` |
+| **With** bypass (`x-middleware-subrequest`) | 405 | Middleware skipped → headers not processed → no SSRF |
 
 This is because the bypass makes middleware **not execute at all**, so the line `NextResponse.next({ headers: request.headers })` is never reached and the `Location` header is not processed.
 
