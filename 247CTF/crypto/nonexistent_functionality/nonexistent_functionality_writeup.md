@@ -123,7 +123,7 @@ print(resp.text)
 247CTF{b85396dfXXXXXXXXXXXXXXXXb2118269}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Padding Oracle Attack**: Different error messages reveal padding validity
 2. **CBC Malleability**: We can control decrypted plaintext by manipulating IV/ciphertext

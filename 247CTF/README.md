@@ -1,16 +1,16 @@
-# 247CTF Challenges - Organización por Categoría
+# 247CTF Challenges - Organized by Category
 
-**Fecha de organización:** 2026-02-05
-**Total de challenges:** 40
+**Date organized:** 2026-02-05
+**Total challenges:** 37
 
 ---
 
-## Estructura
+## Structure
 
 ```
-/root/ctf/
-├── crypto/          (8 challenges)  - Criptografía
-├── web/             (3 challenges)  - Web Exploitation
+247CTF/
+├── crypto/          (7 challenges)  - Cryptography
+├── web/             (4 challenges)  - Web Exploitation
 ├── pwn/             (12 challenges) - Binary Exploitation
 ├── reversing/       (5 challenges)  - Reverse Engineering
 ├── network/         (6 challenges)  - Network & Protocols
@@ -19,40 +19,34 @@
 
 ---
 
-## Crypto (8 challenges)
+## Crypto (7 challenges)
 
-**Ubicación:** `/root/ctf/crypto/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | hmac_forge | HMAC Manipulation |
 | exclusive_key | XOR Cipher |
 | not_my_modulus | RSA Attack |
 | suspicious_caesar_cipher | RSA with Caesar Twist |
-| encrypted_usb | Encryption Analysis |
 | nonexistent_functionality | Padding Oracle Attack |
 | spn_challenge | Substitution-Permutation Network |
 | predictable_iv | IV Prediction |
 
 ---
 
-## Web (3 challenges)
+## Web (4 challenges)
 
-**Ubicación:** `/root/ctf/web/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | meme_upload | File Upload Exploit |
 | wasm_secret | WebAssembly Reversing |
 | mturk | Web Logic Flaw |
+| flag_auth | Authentication Bypass |
 
 ---
 
 ## Pwn (12 challenges)
 
-**Ubicación:** `/root/ctf/pwn/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | cookiemonster | Stack Canary Bypass (Buffer Overflow) |
 | confused_env_read | Environment Variable Read |
@@ -71,24 +65,19 @@
 
 ## Reversing (5 challenges)
 
-**Ubicación:** `/root/ctf/reversing/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | angry_revers | Binary Analysis |
+| encrypted_usb | Encryption Analysis |
 | flag_api_key | API Key Extraction |
-| flag_auth | Authentication Bypass |
 | flag_bootloader | Bootloader Analysis |
 | flag_keygen | Keygen Reversing |
-| flag_errata | Windows Error Codes (Environment-dependent) |
 
 ---
 
-## Network (5 challenges)
+## Network (6 challenges)
 
-**Ubicación:** `/root/ctf/network/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | commutative_payload | PCAP Analysis (SMB/XOR) |
 | icmp_error | ICMP Protocol Analysis |
@@ -101,10 +90,8 @@
 
 ## Misc (3 challenges)
 
-**Ubicación:** `/root/ctf/misc/`
-
-| Challenge | Tipo |
+| Challenge | Type |
 |-----------|------|
 | completely_turing | Brainfuck/Turing-complete Programming |
-| flag_canary | flag_canary |
+| flag_canary | Flag Canary |
 | leaky_libraries | Library Leak |

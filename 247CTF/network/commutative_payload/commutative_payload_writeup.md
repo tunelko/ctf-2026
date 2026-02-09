@@ -50,7 +50,7 @@ b'247CTF{7b3626cdXXXXXXXXXXXXXXXX7356f229}\x00FLAG\x00'
 247CTF{7b3626cdXXXXXXXXXXXXXXXX7356f229}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Commutative Operations**: XOR is commutative and self-inverse, making it common for simple payload obfuscation
 2. **SMB Exploitation**: Traffic pattern shows typical SMB-based attack (EternalBlue-style)

@@ -89,7 +89,7 @@ with open('decrypted.html', 'wb') as f:
 247CTF{cb82a21bXXXXXXXXXXXXXXXXc2b48f47}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Known Plaintext Attack**: Using known parts of plaintext (flag format, file signatures) to recover XOR keys
 2. **XOR Properties**: `A XOR B = C` implies `A XOR C = B` and `B XOR C = A`

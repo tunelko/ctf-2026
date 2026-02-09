@@ -55,7 +55,7 @@ tshark -r encrypted.pcap -o "tls.keys_list:127.0.0.1,443,http,correct_key.pem" -
 247CTF{3693df4dXXXXXXXXXXXXXXXX94c9e9c3}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **RSA Key Pairing**: Public and private keys share the same modulus (n = p × q)
 2. **TLS Decryption**: With the server's private key, we can decrypt the pre-master secret and derive session keys

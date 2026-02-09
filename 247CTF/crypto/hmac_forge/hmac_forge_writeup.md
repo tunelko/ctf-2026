@@ -114,7 +114,7 @@ response = requests.get(URL, params={'user': user_bytes, 'hmac': new_hash})
 247CTF{6ba8d812XXXXXXXXXXXXXXXX73a9f335}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Merkle-Damgård Construction**: SHA-256's structure allows extending hashes
 2. **Length Extension Attack**: Compute `H(secret || known || padding || extension)` from `H(secret || known)`

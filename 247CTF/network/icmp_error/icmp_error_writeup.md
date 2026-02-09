@@ -40,7 +40,7 @@ The extracted JPEG shows the "Hackerman" meme with the flag embedded at the bott
 247CTF{580e6d62XXXXXXXXXXXXXXXXd6284ddf}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **ICMP Data Exfiltration**: ICMP packets can carry arbitrary data in their payload, making them useful for covert data transfer
 2. **JPEG Magic Bytes**: `FF D8 FF E0` identifies JPEG/JFIF files

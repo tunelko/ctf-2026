@@ -1,4 +1,4 @@
-# Crypto Challenges (8)
+# Crypto Challenges (7)
 
 Cryptography and cryptanalysis challenges.
 
@@ -8,9 +8,9 @@ Cryptography and cryptanalysis challenges.
 2. **exclusive_key** - XOR cipher breaking
 3. **not_my_modulus** - RSA modulus attack
 4. **suspicious_caesar_cipher** - RSA with Caesar twist
-6. **nonexistent_functionality** - Padding oracle attack
-7. **spn_challenge** - SPN cryptanalysis
-8. **predictable_iv** - IV prediction exploit
+5. **nonexistent_functionality** - Padding oracle attack
+6. **spn_challenge** - SPN cryptanalysis
+7. **predictable_iv** - IV prediction exploit
 
 ## Common Techniques
 

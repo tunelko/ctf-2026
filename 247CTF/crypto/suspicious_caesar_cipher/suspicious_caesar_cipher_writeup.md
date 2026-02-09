@@ -97,7 +97,7 @@ Encrypted values: 40 characters
 Flag: 247CTF{aedd410dXXXXXXXXXXXXXXXX2ddd2649}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **Never use textbook RSA** - Always use proper padding schemes (OAEP, PKCS#1 v1.5)
 2. **RSA is not meant for small messages** - The message space must be large enough to prevent brute force

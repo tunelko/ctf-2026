@@ -104,7 +104,7 @@ for i in range(16):
 247CTF{d4d651b2XXXXXXXXXXXXXXXX01fad941}
 ```
 
-## Aprendizaje del reto
+## Lessons Learned
 
 1. **BEAST Attack**: Exploits predictable IVs in CBC mode
 2. **Chosen Plaintext Attack**: We control input and observe output

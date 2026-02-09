@@ -1,13 +1,13 @@
 # Misc Challenges (3)
 
-Challenges misceláneos.
+Miscellaneous challenges.
 
-## Lista
+## List
 
 1. **completely_turing** - Brainfuck/Turing-complete programming
-2. **flag_canary** - flag_canary
-3. **leaky_libraries** - Library leak
+2. **flag_canary** - Flag Canary
+3. **leaky_libraries** - Library Leak
 
-## Nota
+## Note
 
-El directorio `flags/` contenía flags reales pero fue eliminado.
+The `flags/` directory contained real flags but has been removed.

@@ -1,6 +1,6 @@
 # Leaky Libraries - 247CTF PWN Challenge
 
-## Descripcion
+## Description
 
 > We don't want to share the entire binary, but we will provide a 1-byte memory leak. Can you abuse the leak to gain code execution on the server?
 
@@ -18,11 +18,11 @@ tcp://1d1233eee403d511.247ctf.com:50212
 
 ---
 
-## Analisis
+## Analysis
 
-### Comandos disponibles
+### Available Commands
 
-El servicio ofrece 4 comandos:
+The service offers 4 commands:
 
 ```
 Commands:
@@ -32,47 +32,47 @@ Commands:
     exit - exit the program
 ```
 
-### Observaciones
+### Observations
 
-1. **base**: Devuelve la direccion base del binario (PIE habilitado)
-2. **read**: Permite leer 1 byte de cualquier direccion
-3. **call**: Llama a una direccion pasando `/bin/sh` como argumento
+1. **base**: Returns the binary's base address (PIE enabled)
+2. **read**: Allows reading 1 byte from any address
+3. **call**: Calls an address passing `/bin/sh` as argument
 
-El binario es de 32 bits (direcciones en rango 0x565xxxxx).
+The binary is 32-bit (addresses in range 0x565xxxxx).
 
 ---
 
-## Estrategia
+## Strategy
 
-### 1. Obtener base del binario
+### 1. Get binary base
 
 ```python
 r.sendline(b'base')
 # Response: Base address: 1448849408 (0x56595000)
 ```
 
-### 2. Leak de libc desde GOT
+### 2. Libc leak from GOT
 
-La GOT del binario esta en `base + 0x1fxx`. Leemos 4 bytes para obtener direcciones de libc:
+The binary's GOT is at `base + 0x1fxx`. We read 4 bytes to obtain libc addresses:
 
-| GOT Offset | Valor | Low bits | Funcion probable |
+| GOT Offset | Value | Low bits | Probable function |
 |------------|-------|----------|------------------|
 | 0x1fd8 | 0xf7dbdd90 | 0xd90 | __libc_start_main |
 | 0x1fc0 | 0xf7e12f10 | 0xf10 | - |
 | 0x1fc4 | 0xf7df5b60 | 0xb60 | - |
 
-El patron `0xd90` es tipico de `__libc_start_main` en libc6-i386.
+The pattern `0xd90` is typical of `__libc_start_main` in libc6-i386.
 
-### 3. Identificar libc
+### 3. Identify libc
 
-Con `__libc_start_main` terminando en `0xd90`, la libc es **libc6-i386_2.27**:
+With `__libc_start_main` ending in `0xd90`, the libc is **libc6-i386_2.27**:
 
-| Simbolo | Offset |
+| Symbol | Offset |
 |---------|--------|
 | __libc_start_main | 0x18d90 |
 | system | 0x3cd10 |
 
-### 4. Calcular system y llamarlo
+### 4. Calculate system and call it
 
 ```python
 libc_base = libc_start_main - 0x18d90
@@ -85,7 +85,7 @@ r.sendline(str(system).encode())
 
 ---
 
-## Ejecucion
+## Execution
 
 ```
 $ python3 solve.py
@@ -99,9 +99,9 @@ $ python3 solve.py
 
 ---
 
-## Aprendizaje del reto
+## Lessons Learned
 
-1. **1-byte leak es suficiente**: Leyendo byte a byte se pueden reconstruir direcciones completas
-2. **GOT como fuente de leaks**: Las entradas GOT contienen direcciones de libc resueltas
-3. **Patrones de low bits**: Los ultimos 12 bits de una funcion son constantes y sirven para identificar libc
-4. **call con argumento fijo**: Si el servicio llama con `/bin/sh`, solo necesitamos encontrar `system`
+1. **1-byte leak is enough**: Reading byte by byte, complete addresses can be reconstructed
+2. **GOT as a source of leaks**: GOT entries contain resolved libc addresses
+3. **Low bits patterns**: The last 12 bits of a function are constant and useful for identifying libc
+4. **call with fixed argument**: If the service calls with `/bin/sh`, we only need to find `system`

