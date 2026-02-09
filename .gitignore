@@ -1,2 +1,15 @@
 # Nunca versionar tests
 **/tests/
+
+# Entorno y secrets
+.env
+.env.*
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+credentials.json
+secrets.json
+token.json
+*.token
