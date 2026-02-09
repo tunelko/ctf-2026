@@ -1,4 +1,4 @@
-# Echoes in Memory
+# c47chm31fy0uc4n - forensics image writeup 
 
 **Category:** Forensics
 
@@ -6,11 +6,37 @@
 
 **CTF/Platform:** Pragyan CTF 2026
 
-**Description:** A Linux server is suspected to have been compromised. A memory dump has been provided for analysis. Using only the provided memory dump, determine: the session key exfiltrated by the malicious process, the epoch timestamp used during the exfiltration, the IP address the program exfiltrated sensitive data to, and the ephemeral source port used by the attacker during remote access.
+**Description:**  
+A Linux server is suspected to have been compromised. A memory dump has been provided for analysis. Using only the provided memory dump, determine:
 
-**Remote:** N/A (offline forensics)
+- the session key exfiltrated by the malicious process  
+- the epoch timestamp used during the exfiltration  
+- the IP address the program exfiltrated sensitive data to  
+- the ephemeral source port used by the attacker during remote access  
 
-**Flag:** `p_ctf{heap_and_rwx_never_lie:1769853900:10.13.37.7:57540}`
+A Linux server is suspected to have been compromised. During the incident window, administrators observed suspicious user activity and abnormal process behavior, but no malicious binaries were recovered from disk.
+
+You are provided with a full memory dump of the system taken shortly after the incident. Initial triage suggests that an attacker may have:
+
+- Accessed the system remotely  
+- Executed a malicious userspace program  
+- Exfiltrated sensitive session data before disappearing  
+
+Your task is to analyze the memory dump and reconstruct what happened.
+
+**Objectives**  
+Using only the provided memory dump, determine:
+
+- The session key exfiltrated by the malicious process  
+- The epoch timestamp used during the exfiltration  
+- The IP address the program exfiltrated sensitive data to  
+- The ephemeral source port used by the attacker during remote access  
+
+You must correlate process activity, memory artifacts, and session metadata to arrive at your answer.
+
+**Flag format:**: p_ctf{<session_key>:<epoch>:<exfiltration_ip>:<ephemeral_remote_execution_port>}
+
+
 
 ---
 
