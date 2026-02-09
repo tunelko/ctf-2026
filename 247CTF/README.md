@@ -1,6 +1,9 @@
 # 247CTF Challenges - Organized by Category
 
-Platform: https://247ctf.com/dashboard  
+Platform: https://247ctf.com/dashboard
+
+![247CTF](247.png)
+
 ---
 
 ## Structure
