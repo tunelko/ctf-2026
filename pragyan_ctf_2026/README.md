@@ -36,7 +36,7 @@ pragyan_ctf_2026/
 │   │   ├── Learn: Shadow DOM bypass, split-comment XSS, window.find()
 │   │   └── <a href="web/shadow_fight/exploit.py">💻 Exploit</a>
 │   │
-│   ├── <a href="web/shadow_fight/WRITEUP_english.md">shadow_fight_2/</a>
+│   ├── <a href="web/shadow_fight/WRITEUP_SF2_english.md">shadow_fight_2/</a>
 │   │   ├── Advanced XSS with split-comment technique
 │   │   ├── Learn: Split-comment XSS (/* and */ in different params)
 │   │   └── <a href="web/shadow_fight/exploit_2.py">💻 Exploit</a>
