@@ -4,7 +4,7 @@ This year I have set myself **the goal of participating more actively**. Here I 
 
 People who are just starting in the field of cybersecurity will face a few critical years in the development of their learning due to the tsunami of artificial intelligence, and they may choose to build a solid foundation in each of the concepts that cybersecurity encompasses. I hope this repository **becomes a continuous knowledge base** for the different techniques used here. 
 
-I would also like to use this space to mention that I am **working on a new CTF platform, built from scratch** and based on many years of past experience. Both some colleagues who have tested it and I believe that it will be more than just another platform, as it combines the academic component with a wide range of features described in this post on **[my personal blog](https://blogs.tunelko.com/2025/12/12/cyber-talented-framework-a-ctf-platform-coded-with-claude-code/)**. As always, I am open to discussing any constructive questions you may have, and I will be happy to explain the details. 
+I would also like to use this space to share that I am **working on a new CTF platform, built from scratch** and based on many years of past experience. Both some colleagues who have tested it and I believe that it will be more than just another platform, as it combines the academic component with a wide range of features described in this post on **[my personal blog](https://blogs.tunelko.com/2025/12/12/cyber-talented-framework-a-ctf-platform-coded-with-claude-code/)**. As always, I am open to discussing any constructive questions you may have, and I will be happy to explain the details. 
 
 Enjoy it! 
 
