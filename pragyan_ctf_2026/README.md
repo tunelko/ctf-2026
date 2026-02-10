@@ -2,371 +2,103 @@
 
 Writeups for challenges solved during Pragyan CTF 2026 (February 6-8, 2026).
 
-**Challenges Solved:** 20/20
-**Categories:** PWN, Web, Crypto, Forensics, Misc
-
----
-
-## Table of Contents
-
-- [PWN (4 challenges)](#pwn)
-- [Web (7 challenges)](#web)
-- [Crypto (4 challenges)](#crypto)
-- [Forensics (4 challenges)](#forensics)
-- [Misc (1 challenge)](#misc)
-
----
-
-## Repository Structure
+![Challenges Solved](challenges_solved.png)
 
 ```
-pragyan_ctf/
-├── README.md
-├── challenges_solved.png
-│
-├── crypto/
-│   ├── candles_and_cripto/
-│   ├── dora_nulls/
-│   ├── dum_cows/
-│   └── R0tnoT13/
-│
-├── forensics/
-│   ├── c47chm31fy0uc4n/
-│   ├── epstein_files/
-│   ├── plumbing/
-│   └── whoami/
-│
-├── web/
-│   ├── crossing_boundaries/
-│   ├── domain_registrar/
-│   ├── note_keeper/
-│   ├── picturethis/
-│   ├── server_oc/
-│   └── shadow_fight/
+pragyan_ctf_2026/                           20/20 · 5,888 pts
 │
 ├── pwn/
 │   ├── dirty_laundry/
+│   │   ├── Binary exploitation with buffer overflow and ROP chain
+│   │   ├── Learn: Stack buffer overflow, ret2libc, ROP gadgets
+│   │   └── 📄 Writeup | 💻 Exploit
 │   ├── pcalc/
+│   │   ├── Python jail escape via chained vulnerabilities
+│   │   ├── Learn: F-string AST bypass, object hierarchy, audit hook bypass
+│   │   └── 📄 Writeup | 💻 Exploit
 │   ├── talking_mirror/
+│   │   ├── Format string vulnerability with indirect write via RBP chain
+│   │   ├── Learn: Format string exploitation, RBP chain indirection, GOT overwrite
+│   │   └── 📄 Writeup | 💻 Exploit
 │   └── TerviMator/
+│       ├── Virtual machine bytecode exploitation via sign extension bug
+│       ├── Learn: Sign extension exploit, arbitrary write, pointer patching
+│       └── 📄 Writeup | 💻 Exploit
+│
+├── web/
+│   ├── domain_registrar/
+│   │   ├── Domain registration service with SSRF vulnerability
+│   │   ├── Learn: SSRF, internal service access
+│   │   └── 📄 Writeup
+│   ├── shadow_fight/
+│   │   ├── XSS challenge with closed Shadow DOM bypass
+│   │   ├── Learn: Shadow DOM bypass, split-comment XSS, window.find()
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── shadow_fight_2/
+│   │   ├── Advanced XSS with split-comment technique
+│   │   ├── Learn: Split-comment XSS (/* and */ in different params)
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── note_keeper/
+│   │   ├── Next.js middleware bypass chain
+│   │   ├── Learn: CVE-2025-29927, CVE-2025-57822, middleware bypass
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── server_oc/
+│   │   ├── Multi-stage web exploitation chain
+│   │   ├── Learn: JWT alg=none bypass, prototype pollution, SSRF
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── picturethis/
+│   │   ├── JPEG polyglot with DOM clobbering
+│   │   ├── Learn: JPEG polyglot, DOM clobbering, CDN extension mismatch
+│   │   └── 📄 Writeup | 💻 Exploit
+│   └── crossing_boundaries/  (solved out of time)
+│       ├── HTTP Request Smuggling
+│       ├── Learn: HTTP request smuggling
+│       └── 📄 Writeup
+│
+├── crypto/
+│   ├── dora_nulls/
+│   │   ├── Cryptographic puzzle involving null bytes
+│   │   ├── Learn: Null byte manipulation, custom cipher analysis
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── R0tnoT13/
+│   │   ├── State reconstruction from XOR-rotation leaks
+│   │   ├── Learn: Linear algebra over GF(2), Z3 constraint solving, ROTL
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── dum_cows/
+│   │   ├── XOR stream cipher with keystream reuse
+│   │   ├── Learn: Known-plaintext attack, keystream extraction
+│   │   └── 📄 Writeup | 💻 Exploit
+│   └── candles_and_cripto/
+│       ├── Polynomial hash zero attack for signature forgery
+│       ├── Learn: Polynomial hash collision, brute force suffix generation
+│       └── 📄 Writeup | 💻 Exploit
+│
+├── forensics/
+│   ├── plumbing/
+│   │   ├── Docker forensics challenge
+│   │   ├── Learn: Docker layer analysis, file system forensics
+│   │   └── 📄 Writeup
+│   ├── whoami/
+│   │   ├── Network forensics with NTLMv2 hash cracking
+│   │   ├── Learn: NTLMv2 hash extraction, hashcat, timestamp analysis
+│   │   └── 📄 Writeup | 💻 Exploit
+│   ├── epstein_files/
+│   │   ├── PDF steganography and PGP decryption
+│   │   ├── Learn: PDF hidden data, XOR decryption, PGP symmetric encryption, ROT18
+│   │   └── 📄 Writeup | 💻 Exploit
+│   └── c47chm31fy0uc4n/
+│       ├── Memory forensics with Volatility3
+│       ├── Learn: Volatility3, memory dump analysis, process forensics, heap reconstruction
+│       └── 📄 Writeup
 │
 └── misc/
+    ├── lost_in_the_haze/
+    │   └── Miscellaneous challenge
     └── tac-tic-toe/
-
+        ├── WASM patching to defeat unbeatable AI
+        ├── Learn: WebAssembly patching, minimax algorithm inversion
+        └── 📄 Writeup | 💻 Exploit
 ```
----
-
-## PWN
-
-| Challenge | Points | Solved | Writeup |
-|-----------|--------|--------|---------|
-| [Dirty Laundry](#dirty-laundry) | 200 | Feb 6, 2:12 PM | [English](pwn/dirty_laundry/WRITEUP_english.md) |
-| [pCalc](#pcalc) | 200 | Feb 6, 2:17 PM | [English](pwn/pcalc/WRITEUP_english.md) |
-| [Talking Mirror](#talking-mirror) | 200 | Feb 6, 6:39 PM | [English](pwn/talking_mirror/WRITEUP_english.md) |
-| [TerViMator](#tervimator) | 289 | Feb 8, 12:01 AM | [English](pwn/TerviMator/WRITEUP_english.md) |
-
-### Dirty Laundry
-**Points:** 200 | **Category:** PWN
-
-Binary exploitation challenge involving buffer overflow and ROP chain.
-
-**Techniques:** Stack buffer overflow, ret2libc, ROP gadgets
-**Flag:** `p_ctf{14UnDryHASbEenSUCces$fU11YCOMP1e73d}`
-
-[📄 Writeup](pwn/dirty_laundry/WRITEUP_english.md) | [💻 Exploit](pwn/dirty_laundry/exploit.py)
-
----
-
-### pCalc
-**Points:** 200 | **Category:** PWN
-
-Python jail escape via chained vulnerabilities.
-
-**Techniques:** F-string AST bypass, object hierarchy exploitation, audit hook bypass
-**Flag:** `p_ctf{CHA7C4LCisJUst$HorTf0rcaLCUla70r}`
-
-[📄 Writeup](pwn/pcalc/WRITEUP_english.md) | [💻 Exploit](pwn/pcalc/exploit.py)
-
----
-
-### Talking Mirror
-**Points:** 200 | **Category:** PWN
-
-Format string vulnerability with indirect write via RBP chain.
-
-**Techniques:** Format string exploitation, RBP chain indirection, GOT overwrite
-**Flag:** `p_ctf{7hETAlk!n6M!RR0RSpOkeONE7OOmANyT!m3S}`
-
-[📄 Writeup](pwn/talking_mirror/WRITEUP_english.md) | [💻 Exploit](pwn/talking_mirror/solve.py)
-
----
-
-### TerViMator
-**Points:** 289 | **Category:** PWN
-
-Virtual machine bytecode exploitation via sign extension bug.
-
-**Techniques:** Sign extension exploit, arbitrary write, pointer patching
-**Flag:** `p_ctf{tErVIm4TOrT-1000ha$BE3nd3feaT3D}`
-
-[📄 Writeup](pwn/TerviMator/WRITEUP_english.md) | [💻 Exploit](pwn/TerviMator/exploit_aslr.py)
-
----
-
-## Web
-
-| Challenge | Points | Solved | Writeup |
-|-----------|--------|--------|---------|
-| [Domain Registrar](#domain-registrar) | 289 | Feb 6, 6:08 PM | [English](web/domain_registrar/WRITEUP_english.md) |
-| [Shadow Fight](#shadow-fight) | 200 | Feb 7, 9:36 AM | [English](web/shadow_fight/WRITEUP_english.md) |
-| [Shadow Fight 2](#shadow-fight-2) | 327 | Feb 7, 9:47 AM | [English](web/shadow_fight/WRITEUP_english.md) |
-| [Note Keeper](#note-keeper) | 200 | Feb 7, 11:02 AM | [English](web/note_keeper/WRITEUP_english.md) |
-| [Server OC](#server-oc) | 200 | Feb 7, 11:29 AM | [English](web/server_oc/WRITEUP_english.md) |
-| [Picture This](#picture-this) | 279 | Feb 8, 10:21 AM | [English](web/picturethis/WRITEUP_english.md) |
-
-
-### Domain Registrar
-**Points:** 289 | **Category:** Web
-
-Domain registration service with SSRF vulnerability.
-
-**Techniques:** SSRF, internal service access
-**Flag:** `p_ctf{c@n_nEVer_%ru$T_D0M@!nS_FR0m_p0Ps}`
-
-[📄 Writeup](web/domain_registrar/WRITEUP_english.md)
-
----
-
-### Shadow Fight
-**Points:** 200 | **Category:** Web
-
-XSS challenge with closed Shadow DOM bypass.
-
-**Techniques:** Shadow DOM bypass, split-comment XSS, `window.find()` exploitation
-**Flag:** `p_ctf{uRi_iz_js_db76a80a938a9ce3}`
-
-[📄 Writeup](web/shadow_fight/WRITEUP_english.md) | [💻 Exploit](web/shadow_fight/exploit.py)
-
----
-
-### Shadow Fight 2
-**Points:** 327 | **Category:** Web
-
-Advanced XSS with split-comment technique.
-
-**Techniques:** Split-comment XSS (`/*` and `*/` in different params)
-**Flag:** `p_ctf{admz_nekki_kekw_c6e194c17f2405c5}`
-
-[📄 Writeup](web/shadow_fight/WRITEUP_english.md) | [💻 Exploit](web/shadow_fight/exploit_2.py)
-
----
-
-### Note Keeper
-**Points:** 200 | **Category:** Web
-
-Next.js middleware bypass chain.
-
-**Techniques:** CVE-2025-29927, CVE-2025-57822, middleware bypass
-**Flag:** `p_ctf{Ju$t_u$e_VITE_e111d821}`
-
-[📄 Writeup](web/note_keeper/WRITEUP_english.md) | [💻 Exploit](web/note_keeper/exploit.py)
-
----
-
-### Server OC
-**Points:** 200 | **Category:** Web
-
-Multi-stage web exploitation chain.
-
-**Techniques:** JWT alg=none bypass, prototype pollution, SSRF
-**Flag:** `p_ctf{L!qU1d_H3L1um_$h0ulD_N0T_T0uch_$3rv3rs}`
-
-[📄 Writeup](web/server_oc/WRITEUP_english.md) | [💻 Exploit](web/server_oc/exploit.py)
-
----
-
-### Picture This
-**Points:** 279 | **Category:** Web
-
-JPEG polyglot with DOM clobbering.
-
-**Techniques:** JPEG polyglot, DOM clobbering, CDN extension mismatch
-**Flag:** `p_ctf{i_M!ss#d_Th#_JPG_5f899f05}`
-
-[📄 Writeup](web/picturethis/WRITEUP_english.md) | [💻 Exploit](web/picturethis/solve.py)
-
----
-
-## Crossing Boundaries
-
-This challenges was solved out of time. 
-
-- **Crossing Boundaries** (Web) - HTTP Request Smuggling
-  [📄 Writeup](web/crossing_boundaries/WRITEUP_english.md)
-
----
-
-## Crypto
-
-| Challenge | Points | Solved | Writeup |
-|-----------|--------|--------|---------|
-| [Dora Nulls](#dora-nulls) | 200 | Feb 6, 5:55 PM | [English](crypto/dora_nulls/WRITEUP_english.md) |
-| [R0tnoT13](#r0tnot13) | 200 | Feb 7, 9:42 AM | [English](crypto/R0tnoT13/WRITEUP_english.md) |
-| [DumCows](#dumcows) | 200 | Feb 7, 12:11 PM | [English](crypto/dum_cows/WRITEUP_english.md) |
-| [Candles and Crypto](#candles-and-crypto) | 200 | Feb 7, 5:23 PM | [English](crypto/candles_and_cripto/WRITEUP_english.md) |
-
-### Dora Nulls
-**Points:** 200 | **Category:** Crypto
-
-Cryptographic puzzle involving null bytes.
-
-**Techniques:** Null byte manipulation, custom cipher analysis
-**Flag:** `p_ctf{th15_m4ps-w0n't_l3ads_2_tr34s3ure!}`
-
-[📄 Writeup](crypto/dora_nulls/WRITEUP_english.md) | [💻 Exploit](crypto/dora_nulls/solve.py)
-
----
-
-### R0tnoT13
-**Points:** 200 | **Category:** Crypto
-
-State reconstruction from XOR-rotation leaks.
-
-**Techniques:** Linear algebra over GF(2), Z3 constraint solving, ROTL interpretation
-**Flag:** `p_ctf{l1nyrl34k}`
-
-[📄 Writeup](crypto/R0tnoT13/WRITEUP_english.md) | [💻 Exploit](crypto/R0tnoT13/solve_z3.py)
-
----
-
-### DumCows
-**Points:** 200 | **Category:** Crypto
-
-XOR stream cipher with keystream reuse.
-
-**Techniques:** Known-plaintext attack, keystream extraction
-**Flag:** `p_ctf{Giv3_sm-H20-t0_C0WSS:./}`
-
-[📄 Writeup](crypto/dum_cows/WRITEUP_english.md) | [💻 Exploit](crypto/dum_cows/solve.py)
-
----
-
-### Candles and Crypto
-**Points:** 200 | **Category:** Crypto
-
-Polynomial hash zero attack for signature forgery.
-
-**Techniques:** Polynomial hash collision, brute force suffix generation
-**Flag:** `p_ctf{3l0w-tH3_c4Ndl35.h4VE=-tHe_CaK3!!}`
-
-[📄 Writeup](crypto/candles_and_cripto/WRITEUP_english.md) | [💻 Exploit](crypto/candles_and_cripto/exploit.py)
-
----
-
-## Forensics
-
-| Challenge | Points | Solved | Writeup |
-|-----------|--------|--------|---------|
-| [Plumbing](#plumbing) | 200 | Feb 7, 10:27 AM | [English](forensics/plumbing/WRITEUP_english.md) |
-| [$whoami](#whoami) | 400 | Feb 7, 11:39 AM | [English](forensics/whoami/WRITEUP_english.md) |
-| [Epstein Files](#epstein-files) | 265 | Feb 7, 5:54 PM | [English](forensics/epstein_files/WRITEUP_english.md) |
-| [c47chm31fy0uc4n](#c47chm31fy0uc4n) | 439 | Feb 8, 11:03 AM | [English](forensics/c47chm31fy0uc4n/WRITEUP_english.md) |
-
-### Plumbing
-**Points:** 200 | **Category:** Forensics
-
-Docker forensics challenge.
-
-**Techniques:** Docker layer analysis, file system forensics
-**Flag:** `p_ctf{d0ck3r_l34k5_p1p3l1n35}`
-
-[📄 Writeup](forensics/plumbing/WRITEUP_english.md)
-
----
-
-### $whoami
-**Points:** 400 | **Category:** Forensics
-
-Network forensics with NTLMv2 hash cracking.
-
-**Techniques:** NTLMv2 hash extraction, hashcat, timestamp analysis
-**Flag:** `p_ctf{t.stark:Arcadia1451606400}`
-
-[📄 Writeup](forensics/whoami/WRITEUP_english.md) | [💻 Exploit](forensics/whoami/exploit.py)
-
----
-
-### Epstein Files
-**Points:** 265 | **Category:** Forensics
-
-PDF steganography and PGP decryption.
-
-**Techniques:** PDF hidden data, XOR decryption, PGP symmetric encryption, ROT18
-**Flag:** `p_ctf{41n7_n0_w4y_h3_5u1c1d3}`
-
-[📄 Writeup](forensics/epstein_files/WRITEUP_english.md) | [💻 Exploit](forensics/epstein_files/solve.py)
-
----
-
-### c47chm31fy0uc4n
-**Points:** 439 | **Category:** Forensics
-
-Memory forensics with Volatility3.
-
-**Techniques:** Volatility3, memory dump analysis, process forensics, heap reconstruction
-**Flag:** `p_ctf{heap_and_rwx_never_lie:1769853900:10.13.37.7:57540}`
-
-[📄 Writeup](forensics/c47chm31fy0uc4n/WRITEUP_english.md)
-
----
-
-## Misc
-
-| Challenge | Points | Solved | Writeup |
-|-----------|--------|--------|---------|
-| [Lost in the Haze](#lost-in-the-haze) | 200 | Feb 8, 11:10 AM | - |
-| [Tac-Tic-Toe](#tac-tic-toe) | 200 | Feb 8 | [English](misc/tac-tic-toe/WRITEUP_english.md) |
-
-### Lost in the Haze
-**Points:** 200 | **Category:** Misc
-
-Miscellaneous challenge.
-
-**Flag:** *[Flag not recorded]*
-
----
-
-### Tac-Tic-Toe
-**Points:** 200 | **Category:** Misc
-
-WASM patching to defeat unbeatable AI.
-
-**Techniques:** WebAssembly patching, minimax algorithm inversion
-**Flag:** `p_ctf{W@sM@_!s_Fas&t_Bu?_$ecur!ty}`
-
-[📄 Writeup](misc/tac-tic-toe/WRITEUP_english.md) | [💻 Exploit](misc/tac-tic-toe/solve.js)
-
-
-## Statistics
-
-- **Challenges Solved:** 20
-- **Time Span:** February 6-8, 2026 (3 days)
-
-### Points by Category
-
-| Category | Challenges | Total Points |
-|----------|-----------|--------------|
-| PWN | 4 | 889 |
-| Web | 7 | 1,695 |
-| Crypto | 4 | 800 |
-| Forensics | 4 | 1,304 |
-| Misc | 1 | 200 |
-
-### Solve Timeline
-
-**Day 1 (Feb 6):** 6 challenges solved
-**Day 2 (Feb 7):** 10 challenges solved
-**Day 3 (Feb 8):** 4 challenges solved
 
 ---
 
@@ -380,27 +112,8 @@ WASM patching to defeat unbeatable AI.
 - **Hashcat** - Password cracking
 - **WABT** - WebAssembly toolkit
 
-### Key Techniques
-- Format string exploitation
-- ROP chains and return-to-libc
-- Python jail escapes
-- XSS and DOM manipulation
-- SQL injection variants
-- Cryptographic attacks
-- Memory forensics
-- WebAssembly reversing
+### Solve Timeline
 
----
-
-Each challenge directory contains:
-- `WRITEUP_english.md` - Detailed writeup (English)
-- `exploit.py` / `solve.py` - Working exploit code
-- Challenge files and supporting materials
-
----
-
-## About
-
-These writeups document the solutions for Pragyan CTF 2026 challenges. All exploits were tested against live servers and flags verified.
-
-**Note:** Some challenge names differ slightly between the scoreboard and directory names for filesystem compatibility.
+**Day 1 (Feb 6):** 6 challenges solved
+**Day 2 (Feb 7):** 10 challenges solved
+**Day 3 (Feb 8):** 4 challenges solved
