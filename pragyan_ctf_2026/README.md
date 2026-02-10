@@ -2,8 +2,6 @@
 
 Writeups for challenges solved during Pragyan CTF 2026 (February 6-8, 2026).
 
-![Challenges Solved](challenges_solved.png)
-
 <pre>
 pragyan_ctf_2026/
 │
