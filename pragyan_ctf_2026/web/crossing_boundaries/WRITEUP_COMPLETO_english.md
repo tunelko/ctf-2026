@@ -839,7 +839,6 @@ marker = f"LEAK_{int(time.time())}_{uuid.uuid4().hex[:6]}_"
 - Precise timing
 - Creative thinking (GET as carrier)
 
-**Rating**: ⭐⭐⭐⭐⭐ (5/5) - Excellent educational challenge
 
 ---
 

