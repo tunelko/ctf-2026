@@ -484,7 +484,7 @@ p_ctf{CHA7C4LCisJUst$HorTf0rcaLCUla70r}
 
 - [Python AST Documentation](https://docs.python.org/3/library/ast.html)
 - [Python Audit Hooks (PEP 578)](https://peps.python.org/pep-0578/)
-- [HackTricks - Python Jail Escape](https://book.hacktricks.xyz/generic-methodologies-and-resources/python/bypass-python-sandboxes)
+- [HackTricks - Python Jail Escape](https://book.hacktricks.wiki/en/linux-hardening/privilege-escalation/escaping-from-limited-bash.html#python-jails)
 - [Python f-string Format Specifications](https://docs.python.org/3/library/string.html#formatspec)
 - [Python open() - Accepts bytes paths](https://docs.python.org/3/library/functions.html#open)
 - [Type checking in Python - isinstance()](https://docs.python.org/3/library/functions.html#isinstance)
