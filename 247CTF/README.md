@@ -10,7 +10,8 @@ Platform: https://247ctf.com/dashboard
 ├── pwn/
 │   ├── <a href="pwn/cookiemonster/cookiemonster_writeup.md">cookiemonster/</a>
 │   │   ├── Overflow stack canary on 32-bit binary to call hidden flag function
-│   │   └── Learn: Stack overflow, canary exploitation, 32-bit binary exploitation
+│   │   ├── Learn: Stack overflow, canary exploitation, 32-bit binary exploitation
+│   │   └── <a href="pwn/cookiemonster/exploit.py">💻 Exploit</a>
 │   │
 │   ├── <a href="pwn/confused_env_read/confused_env_read_writeup.md">confused_env_read/</a>
 │   │   ├── Exploit format string to read arbitrary stack memory and leak addresses
@@ -22,10 +23,6 @@ Platform: https://247ctf.com/dashboard
 │   │   ├── Learn: Format string vulnerability, GOT overwrites, write primitives
 │   │   └── <a href="pwn/confused_environment_write/solve.py">💻 Exploit</a>
 │   │
-│   ├── <a href="pwn/empty_read/empty_read_writeup.md">empty_read/</a>
-│   │   ├── Exploit out-of-bounds read in email service to leak heap addresses
-│   │   └── Learn: Heap exploitation, OOB read, use-after-free
-│   │
 │   ├── <a href="pwn/executable_stack/executable_stack_writeup.md">executable_stack/</a>
 │   │   ├── Custom shellcode on executable stack for code execution on 32-bit binary
 │   │   ├── Learn: Shellcode crafting, executable stack exploitation, ROP gadgets
@@ -33,7 +30,8 @@ Platform: https://247ctf.com/dashboard
 │   │
 │   ├── <a href="pwn/flag_store/flag_store_writeup.md">flag_store/</a>
 │   │   ├── Exploit use-after-free in custom flag storage application
-│   │   └── Learn: UAF exploitation, heap spraying, free() abuse
+│   │   ├── Learn: UAF exploitation, heap spraying, free() abuse
+│   │   └── <a href="pwn/flag_store/free_flag_storage_solve.py">💻 Exploit</a>
 │   │
 │   ├── <a href="pwn/heaped_notes/heaped_notes_writeup.md">heaped_notes/</a>
 │   │   ├── Trigger flag function using heap feng-shui with 3 identical chunks
@@ -42,7 +40,8 @@ Platform: https://247ctf.com/dashboard
 │   │
 │   ├── <a href="pwn/hidden_flag_function/hidden_flag_function_writeup.md">hidden_flag_function/</a>
 │   │   ├── Stack overflow to redirect flow to hidden flag() function
-│   │   └── Learn: Stack overflow, function redirection, 32-bit exploitation
+│   │   ├── Learn: Stack overflow, function redirection, 32-bit exploitation
+│   │   └── <a href="pwn/hidden_flag_function/hidden_flag_function_with_args">💻 Exploit</a>
 │   │
 │   ├── <a href="pwn/hidden_flag_function_simple/hidden_flag_function_simple_writeup.md">hidden_flag_function_simple/</a>
 │   │   ├── Stack overflow to call hidden flag() with correct parameters
@@ -72,11 +71,13 @@ Platform: https://247ctf.com/dashboard
 │   │
 │   ├── <a href="web/meme_upload/meme_upload_writeup.md">meme_upload/</a>
 │   │   ├── Combine XXE and PHAR deserialization with polyglot files for RCE
-│   │   └── Learn: XXE injection, PHAR deserialization, polyglot files, PHP object injection
+│   │   ├── Learn: XXE injection, PHAR deserialization, polyglot files, PHP object injection
+│   │   └── <a href="web/meme_upload/exploit.py">💻 Exploit</a>
 │   │
 │   ├── <a href="web/mturk/mturk_writeup.md">mturk/</a>
 │   │   ├── Solve 100 CAPTCHAs in 30 seconds using OCR and image preprocessing
-│   │   └── Learn: Image processing, OCR (Tesseract), automated CAPTCHA solving
+│   │   ├── Learn: Image processing, OCR (Tesseract), automated CAPTCHA solving
+│   │   └── <a href="web/mturk/solve.py">💻 Exploit</a>
 │   │
 │   └── <a href="web/wasm_secret/wasm_secret_writeup.md">wasm_secret/</a>
 │       ├── Extract secret from WebAssembly module by analyzing WASM bytecode
@@ -174,7 +175,8 @@ Platform: https://247ctf.com/dashboard
 └── misc/
     ├── <a href="misc/completely_turing/completely_turing_writeup.md">completely_turing/</a>
     │   ├── Extract encrypted flag from Brainfuck program via multiplication patterns
-    │   └── Learn: Brainfuck programming, regex pattern analysis, encryption recognition
+    │   ├── Learn: Brainfuck programming, regex pattern analysis, encryption recognition
+    │   └── <a href="misc/completely_turing/solve_completely_turing.py">💻 Exploit</a>
     │
     ├── <a href="misc/flag_canary/flag_canary_writeup.md">flag_canary/</a>
     │   ├── Bypass custom RC4-based canary protection with fixed buffer and secret check
