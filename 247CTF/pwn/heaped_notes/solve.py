@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from pwn import *
 
-HOST = "85ab7aea87f63982.247ctf.com"
-PORT = 50014
+HOST = "ac2fa19be07066e7.247ctf.com"
+PORT = 50069
 
 def exploit():
     io = remote(HOST, PORT)
