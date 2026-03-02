@@ -1,0 +1,233 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #fef3c7, #fcd34d);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  padding: 40px 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 25px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+}
+
+a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.dashboard {
+  width: 100%;
+  max-width: 1000px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.note-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 550px;
+  margin: 0 auto 60px auto;
+  background: white;
+  padding: 8px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.note-form:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+}
+
+.note-form textarea {
+  width: 100%;
+  min-height: 80px;
+  border: none;
+  padding: 18px 20px;
+  font-size: 16px;
+  resize: none;
+  font-family: inherit;
+  outline: none;
+  background: transparent;
+  color: #374151;
+}
+
+.note-form textarea::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.note-form button {
+  align-self: flex-end;
+  width: auto;
+  min-width: 160px;
+  padding: 12px 28px;
+  margin: 10px;
+  border-radius: 14px;
+  background: #111827;
+  color: #f3f4f6;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+.notes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+}
+
+.note {
+  background: #ffffff;
+  border-left: 4px solid #111827;
+  padding: 25px;
+  border-radius: 4px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+  
+  color: #4b5563;
+  line-height: 1.6;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace; 
+  font-size: 13px;
+
+  word-break: break-all;
+  overflow-wrap: break-word;
+  min-height: 120px;
+  
+  animation: fadeIn 0.4s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.note:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+
+.note:nth-child(even) { transform: rotate(0.5deg); }
+.note:nth-child(odd) { transform: rotate(-0.5deg); }
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: #4b5563 !important;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.logout-btn:hover {
+  background: #fee2e2;
+  color: #dc2626 !important;
+  border-color: #fecaca;
+  transform: translateY(-1px);
+}
+
+.void-description {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.void-description p {
+  font-size: 14px;
+  color: #6b7280; 
+  margin: 5px 0;
+  font-style: italic;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+.subtle-link {
+  font-size: 13px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.subtle-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+input::placeholder {
+  color: #d1d5db;
+  font-style: italic;
+}
+
+form[action="/register"] button {
+  background: linear-gradient(90deg, #111827, #374151);
+}
+
+h1 {
+  letter-spacing: -1px;
+}

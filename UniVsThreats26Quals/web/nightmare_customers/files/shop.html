@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Cosmic Components Co.</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Template Engine: Jinja2 v3.1.2 (Flask 2.3.x) - Debug mode: context variables exposed -->
+    <!-- FIXME: Disable template debugging in production - app/config/request objects leak in error messages -->
+    <meta name="csrf-token" content="IjUyZDQyZGUzOGEzMmNjOWZkOTNmYmU2ZWVkODZjNmU2NDdiNmRmYTci.aaF1iw.eGI3ZaY5FTtZ8rWaW5mTBN_YKZs">
+    <script>
+        // Helper to get CSRF token for AJAX requests
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').content;
+        }
+    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="/shop" class="logo">
+                    <img src="/static/img/Logo.png" alt="Cosmic Components Co." class="logo-img">
+                </a>
+                <div class="user-status">
+                    <span class="tier-badge rookie">
+                        Rookie
+                    </span>
+                </div>
+            </div>
+            <nav>
+                <a href="/shop" class="nav-link">Shop</a>
+                <a href="/cart" class="nav-link">Cart</a>
+                <a href="/account" class="nav-link">Account</a>
+                <a href="/wallet-ledger" class="nav-link">Ledger</a>
+                <a href="/flag" class="nav-link elite-forum-link">Elite Forum</a>
+                <div class="balance-info">
+                    <div class="balance-item bbd-balance" data-tooltip="billions and billions of Dollars">
+                        <span class="balance-label">BBD</span>
+                        <span class="balance-value">100.00</span>
+                    </div>
+                    
+                </div>
+                <a href="/logout" class="nav-link logout-link">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
+    
+    <div class="container">
+        
+            
+        
+        
+        
+<div class="card" style="background: linear-gradient(135deg, rgba(0, 217, 255, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-color: rgba(0, 217, 255, 0.3); margin-bottom: 25px;">
+    <h3 style="color: var(--primary-color); margin-bottom: 15px;">Welcome to Cosmic Components Co.!</h3>
+    <p style="color: var(--text-secondary); line-height: 1.8;">
+        Thank you for visiting our store! As a special welcome gift, you can use coupon code 
+        <strong style="color: var(--accent-color); font-family: 'Orbitron', monospace; font-size: 18px;">NEWCUSTOMER10</strong> 
+        to get <strong style="color: var(--accent-color);">10% off</strong> on our Quantum RAM Stick!
+    </p>
+</div>
+
+<div class="card">
+    <h2>Premium Space Components</h2>
+    <div class="cart-warning">
+        ⚠️ Note: Some products may only be ordered by themselves due to specialized handling requirements.
+    </div>
+</div>
+
+<div class="product-grid">
+    
+    <div class="product-card ">
+        <div class="product-image">
+            
+                <img src="/static/img/QuantumRam.png" alt="Quantum RAM Stick">
+            
+        </div>
+        <div class="product-name">Quantum RAM Stick</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 300.00
+            </span>
+        </div>
+        <div class="product-description">Quantum RAM Stick - Store your data in superposition! Our coupon system is as quantum as our products - try all the states!</div>
+        
+        
+            <a href="/product/1" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+                View Details
+            </a>
+        
+    </div>
+    
+    <div class="product-card locked">
+        <div class="product-image">
+            
+                <img src="/static/img/SSD.png" alt="Neutrino SSD Drive">
+            
+        </div>
+        <div class="product-name">Neutrino SSD Drive</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 500.00
+            </span>
+        </div>
+        <div class="product-description">Neutrino SSD Drive - So fast, it travels backwards in time! Quantities are relative. Trade-ins accepted. Can be bundled with Quantum RAM.</div>
+        
+        
+            <div class="requires-tier">
+                Requires: Silver Customer
+            </div>
+        
+    </div>
+    
+    <div class="product-card locked">
+        <div class="product-image">
+            
+                <img src="/static/img/IonProcessorCore.png" alt="Ion Processor Core">
+            
+        </div>
+        <div class="product-name">Ion Processor Core</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 9000.00
+            </span>
+        </div>
+        <div class="product-description">Ion Processor Core - Unlimited processing power! Ion department accepts VC (Voucher Credits). No limits, no floors, just pure discounts!</div>
+        
+        
+            <div class="requires-tier">
+                Requires: Gold Customer
+            </div>
+        
+    </div>
+    
+    <div class="product-card locked">
+        <div class="product-image">
+            
+                <img src="/static/img/Voucher.png" alt="Ion Starter Voucher">
+            
+        </div>
+        <div class="product-name">Ion Starter Voucher</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 10.00
+            </span>
+        </div>
+        <div class="product-description">Ion Starter Voucher - Get 25 VC to unlock Ion department discounts! Each VC = 1 BBD off Ion Processor. Stack unlimited vouchers!</div>
+        
+        
+            <div class="requires-tier">
+                Requires: Gold Customer
+            </div>
+        
+    </div>
+    
+    <div class="product-card locked">
+        <div class="product-image">
+            
+                <img src="/static/img/Nvidia.png" alt="Nvidia 8090 Ti GPU">
+            
+        </div>
+        <div class="product-name">Nvidia 8090 Ti GPU</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 1200.00
+            </span>
+        </div>
+        <div class="product-description">Nvidia 8090 Ti GPU - Renders reality itself! Order confirmation guaranteed, payment optional for premium members.</div>
+        
+        
+            <div class="requires-tier">
+                Requires: Platinum Customer
+            </div>
+        
+    </div>
+    
+    <div class="product-card locked">
+        <div class="product-image">
+            
+                <img src="/static/img/DarkMatterPSU.png" alt="Dark Matter PSU">
+            
+        </div>
+        <div class="product-name">Dark Matter PSU</div>
+        <div class="product-price">
+            <span class="currency" data-tooltip="billions and billions of Dollars">
+                BBD 2000.00
+            </span>
+        </div>
+        <div class="product-description">Dark Matter PSU - Powers the universe! Caution: Ordering in bulk may cause gravitational anomalies and reality distortions. Can be bundled with select items for calibration purposes.</div>
+        
+        
+            <div class="requires-tier">
+                Requires: Diamond Customer
+            </div>
+        
+    </div>
+    
+</div>
+
+<div class="card" style="margin-top: 40px; background: linear-gradient(135deg, rgba(255, 165, 2, 0.1) 0%, rgba(255, 68, 68, 0.1) 100%); border-color: rgba(255, 165, 2, 0.3);">
+    <h3 style="color: #ffa502; margin-bottom: 15px;">Special Offer for AI Data Centers!</h3>
+    <p style="color: var(--text-secondary); line-height: 1.8;">
+        Building the next revolutionary AI model? Planning to train on billions of parameters? 
+        <strong style="color: var(--accent-color);">Contact our sales team</strong> for <em>exclusive bulk pricing</em> on our premium components!
+    </p>
+    <p style="color: var(--text-muted); margin-top: 10px; font-size: 14px;">
+        * Offer not available to individual customers. Minimum order: 10,000 units. Terms and conditions apply. Your training data may be used to improve our products.
+    </p>
+</div>
+
+    </div>
+    
+    <!-- Tier Promotion Modal -->
+    
+    
+    
+    
+    <!-- DEV NOTES: Admin panel accessible at /admin/dashboard (requires admin role in JWT) -->
+    <!-- GraphQL endpoint: /graphql - Schema introspection enabled for debugging -->
+    <!-- Legacy API (deprecated): /api/v1/users/{id}/wallet - PATCH method for balance adjustments -->
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="dashboard">
+
+  <div class="top-bar">
+    <a href="/logout" class="logout-btn">Logout</a>
+  </div>
+
+  <div class="header-section" style="text-align: center; margin-bottom: 50px;">
+    <h1 class="dashboard-title">Your Echoes</h1>
+    <p style="color: #6b7280; margin-top: -20px; font-style: italic; opacity: 0.8;">
+      Safe thoughts, forever gone.
+    </p>
+  </div>
+
+  <form class="note-form" method="post">
+    <textarea name="note" placeholder="Entrust a fragment to the void..." required></textarea>
+    <button type="submit">Seal the Echo</button>
+  </form>
+
+  <div class="notes">
+    <% notes.forEach(n => { %>
+      <div class="note">
+        <div class="note-content"><%= n %></div>
+      </div>
+    <% }) %>
+  </div>
+
+</div>
+
+</body>
+</html>

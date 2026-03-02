@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  web:
+    build: ./web
+    ports:
+      - "5000:5000"
+    volumes:
+      - shared-data:/shared
+
+  bot:
+    build: ./bot
+    volumes:
+      - shared-data:/shared
+    environment:
+      - FLAG=${FLAG:-clctf{f3k4_fl4g_f0r_t35t1ng}}
+    depends_on:
+      - web
+
+volumes:
+  shared-data:

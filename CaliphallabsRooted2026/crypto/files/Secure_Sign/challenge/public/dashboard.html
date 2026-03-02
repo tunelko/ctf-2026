@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>Panel de trabajo | SecureSign</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    </head>
+    <body>
+        <div class="background-orb"></div>
+        <div class="container">
+            <div id="dashboard-section" class="card fade-in">
+                <div class="header">
+                    <h2>Espacio de Trabajo</h2>
+                    <button onclick="logout()" class="secondary-btn small">Salir</button>
+                </div>
+                <div class="description-box" style="margin-bottom: 30px; color: var(--text-muted); text-align: center;">
+                    <p>Bienvenido a tu sistema de gestión de firmas. Aquí puedes <strong>firmar</strong> documentos digitalmente utilizando una clave privada segura del servidor, o <strong>verificar</strong> la autenticidad e integridad de documentos recibidos.</p>
+                </div>
+                <div class="actions">
+                    <div class="action-card">
+                        <h3>Firmar Documentos</h3>
+                        <label>Documentos:</label>
+                        <input type="file" id="sign-files" class="file-input" style="margin-bottom: 10px;" multiple>
+                        <button onclick="signDocuments()" class="primary-btn">Firmar Todo</button>
+                        <div id="sign-result" class="result-box hidden">
+                            <h4>Firmas Generadas</h4>
+                            <ul id="signature-list" style="list-style: none; padding: 0; max-height: 150px; overflow-y: auto;"></ul>
+                            <button onclick="downloadSignaturesZip()" class="secondary-btn small" style="margin-top: 10px;">Descargar ZIP de Firmas</button>
+                        </div>
+                    </div>
+                    <div class="action-card">
+                        <h3>Verificar Firma</h3>
+                        <label>Documento Original:</label>
+                        <input type="file" id="verify-file" class="file-input" style="margin-bottom: 10px;">
+                        <label>Archivo de Firma (opcional):</label>
+                        <input type="file" id="verify-sig-file" class="file-input" style="margin-bottom: 10px;">
+                        <textarea id="verify-signature-text" placeholder="O pega la Firma (Hex) aquí..." style="margin-bottom: 10px;"></textarea>
+                        <button onclick="verifySignature()" class="secondary-btn">Verificar Integridad</button>
+                        <div id="verify-result" class="result-box hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>

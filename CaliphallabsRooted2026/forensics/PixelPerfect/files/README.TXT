@@ -1,0 +1,3 @@
+Mi primo pequeño está obsesionado con el speedrunning de Super Mario Bros de la NES. Empezó recientemente por ver a algunos creadores que seguía en Twitch y ahora no quiere dejar de jugar. Tras uno de sus enfados habituales por no conseguir hacer correctamente el "flagpole glitch", su ordenador empezó a hacer cosas raras. Tengo algunos archivos de su disco duro, veamos qué ha estado haciendo.
+
+nc challs.caliphallabs.com 53109

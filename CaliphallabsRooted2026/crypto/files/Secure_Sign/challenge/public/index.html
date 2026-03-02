@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <title>Iniciar sesión | SecureSign</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="background-orb"></div>
+        <div class="container">
+            <div id="auth-section" class="card fade-in">
+                <h1 class="logo">SecureSign</h1>
+                <p class="subtitle">Seguridad Documental de Nueva Generación</p>
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('login')">Iniciar Sesión</button>
+                    <button class="tab-btn" onclick="switchTab('register')">Registrarse</button>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <input type="email" id="login-email" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="login-password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="primary-btn">Acceder</button>
+                </form>
+                <form id="register-form" style="display: none;">
+                    <div class="input-group">
+                        <input type="email" id="reg-email" placeholder="Correo Electrónico" required>
+                    </div>
+                    <div class="input-group">
+                        <input type="password" id="reg-password" placeholder="Contraseña" required>
+                    </div>
+                    <button type="submit" class="primary-btn">Crear Usuario</button>
+                </form>
+                <div id="auth-msg" class="message"></div>
+            </div>
+        </div>
+        <script src="app.js"></script>
+    </body>
+</html>

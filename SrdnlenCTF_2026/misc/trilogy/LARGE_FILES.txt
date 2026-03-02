@@ -1,0 +1,3 @@
+Original challenge files: img.qcow (982MB QCOW2), chall.zip (469MB)
+Corel Linux 1.2 disk image — too large for zip
+Download from challenge platform or extract from original handout

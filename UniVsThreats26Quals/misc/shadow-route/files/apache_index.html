@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helios Space Station - Public Interface</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a1a;
+            color: #c0c0d0;
+            font-family: 'Courier New', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .stars {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+                        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+                        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+                        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+                        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+            background-size: 200px 100px;
+            animation: twinkle 5s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        @keyframes twinkle { from { opacity: 0.5; } to { opacity: 1; } }
+        .container {
+            position: relative; z-index: 1;
+            max-width: 900px; margin: 0 auto; padding: 40px 20px;
+        }
+        .header {
+            text-align: center; margin-bottom: 50px;
+            border: 1px solid #2a2a4a; padding: 30px;
+            background: rgba(10, 10, 30, 0.9);
+        }
+        .header h1 {
+            color: #00d4ff; font-size: 2.2em; margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        .header .subtitle { color: #7a7a9a; font-size: 0.9em; }
+        .status-panel {
+            background: rgba(15, 15, 35, 0.95);
+            border: 1px solid #1a3a5a; padding: 25px; margin: 20px 0;
+        }
+        .status-panel h2 {
+            color: #00ff88; font-size: 1.1em; margin-bottom: 15px;
+            border-bottom: 1px solid #1a3a5a; padding-bottom: 10px;
+        }
+        .status-item {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; border-bottom: 1px solid #0a1a2a;
+        }
+        .status-label { color: #5a7a9a; }
+        .status-value { color: #00d4ff; }
+        .status-ok { color: #00ff88; }
+        .status-warn { color: #ffaa00; }
+        .crew-notice {
+            background: rgba(255, 170, 0, 0.1);
+            border: 1px solid #ffaa00; padding: 20px; margin: 30px 0;
+            text-align: center;
+        }
+        .crew-notice p { color: #ffaa00; font-size: 0.9em; }
+        footer {
+            text-align: center; margin-top: 50px; padding: 20px;
+            color: #3a3a5a; font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div class="stars"></div>
+    <div class="container">
+        <div class="header">
+            <h1>★ HELIOS SPACE STATION ★</h1>
+            <div class="subtitle">UNIFIED TELEMETRY AND RESEARCH INTERFACE | EST. 2024</div>
+            <div class="subtitle" style="margin-top: 5px;">PUBLIC ACCESS TERMINAL v3.7.1</div>
+        </div>
+
+        <div class="status-panel">
+            <h2>[STATION STATUS - LIVE]</h2>
+            <div class="status-item">
+                <span class="status-label">Hull Integrity:</span>
+                <span class="status-value status-ok">98.7% - NOMINAL</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Oxygen Reserves:</span>
+                <span class="status-value status-ok">SUFFICIENT (47 days)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Solar Array Output:</span>
+                <span class="status-value status-ok">12.4 kW - OPTIMAL</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Crew On Station:</span>
+                <span class="status-value">7 / 12</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">External Temp:</span>
+                <span class="status-value">-157°C (Shadow Side)</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">File Archive:</span>
+                <span class="status-value status-ok">ONLINE - Port 8445</span>
+            </div>
+        </div>
+
+        <div class="status-panel">
+            <h2>[RECENT MISSION LOG]</h2>
+            <p style="color: #5a7a9a; font-size: 0.85em; line-height: 1.8;">
+                <span style="color: #00d4ff;">[2026-02-05 14:32 UTC]</span> EVA-7 completed. Antenna realignment successful.<br>
+                <span style="color: #00d4ff;">[2026-02-04 09:15 UTC]</span> New crew member (astrid) arrived via resupply shuttle.<br>
+                <span style="color: #00d4ff;">[2026-02-03 22:48 UTC]</span> Cargo manifest updated. Check the station file archive (port 8445) for details.<br>
+                <span style="color: #00d4ff;">[2026-02-02 11:00 UTC]</span> Orbital telemetry sync script updated by nova.<br>
+                <span style="color: #00d4ff;">[2026-02-01 08:30 UTC]</span> Station AI diagnostic: all systems green.
+            </p>
+        </div>
+
+
+        <footer>
+            <p>HELIOS STATION PUBLIC TERMINAL | UNISPACE CONSORTIUM © 2026</p>
+            <p>Telemetry data refreshed every 60s | Build: HST-3.7.1-prod</p>
+        </footer>
+    </div>
+</body>
+</html>

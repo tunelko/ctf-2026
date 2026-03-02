@@ -1,0 +1,2 @@
+Original challenge file: space_usb.img (128MB DOS/MBR disk image, too large for zip)
+Download from challenge platform or extract from original handout

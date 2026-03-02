@@ -1,0 +1,31 @@
+services:
+  solr:
+    image: solr:latest
+    container_name: solr
+    ports:
+      - "8983:8983"
+    command:
+      - solr-precreate
+      - ctf
+    volumes:
+      - solr_data:/var/solr
+    networks:
+      - ctfnet
+
+  web:
+    image: php:8.2-apache
+    container_name: shop_web
+    ports:
+      - "8083:80"
+    volumes:
+      - ./shop/shop_app:/var/www/html
+    depends_on:
+      - solr
+    networks:
+      - ctfnet
+
+volumes:
+  solr_data:
+
+networks:
+  ctfnet:

@@ -1,0 +1,26 @@
+===============================================================
+  ★  HELIOS SPACE STATION  ★  CARGO MANIFEST  ★
+===============================================================
+
+SHIPMENT ID: HEL-2026-0042
+ORIGIN: Earth - Orbital Dock Sigma
+DESTINATION: Helios Station - Bay 7
+
+CARGO CONTENTS:
+  [1] Oxygen Recycler Unit x2 .............. 450kg
+  [2] Hydroponic Growth Medium x50 ......... 120kg
+  [3] Emergency EVA Suit (Size M) x5 ....... 80kg
+  [4] Quantum Comm Relay Module x1 ......... 35kg
+  [5] Classified Research Samples ........... 15kg
+      *** RESTRICTED - LEVEL 3 CLEARANCE ***
+
+NOTES:
+  - Item [5] must be stored in cryo-vault C
+  - The new crew member (astrid) is assigned to
+    the cosmos-data telemetry analysis division
+  - All telemetry uploads go through the standard
+    data pipeline accessible via station network
+
+AUTHORIZED BY: Lt. Commander Chen
+MANIFEST HASH: 7f3a... [TRUNCATED FOR TRANSIT]
+===============================================================

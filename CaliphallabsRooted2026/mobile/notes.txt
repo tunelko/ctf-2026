@@ -1,0 +1,29 @@
+# Dopaminer - Estado actual (EN PROGRESO)
+
+## Reconocimiento
+- APK Android, package: com.example.dopaminer
+- Compilado con Kotlin/Jetpack Compose
+- debuggable=true
+
+## Funcionalidad
+- App tipo clicker "minería de oro" (MineScreen)
+- Cuando gold > 10, pide permisos CAMERA + RECORD_AUDIO
+- BackgroundService: cada 30s toma foto + graba 5s audio
+- Envía a http://dopaminer.challs.caliphallabs.com via multipart POST
+- En writeFileToMultipart: primeros 3 bytes del archivo se ponen a 0 (ofuscación headers)
+- Es esencialmente spyware/stalkerware disfrazado de juego
+
+## Flag
+- NO encontrada aún en strings, sources ni resources
+- Posibles ubicaciones pendientes de revisar:
+  - Recursos/assets del APK
+  - Archivos nativos (.so)
+  - Smali que jadx no decompile bien (MineScreen fue skipped)
+  - Respuesta del servidor remoto
+  - Strings XML
+  - Metadata del APK
+  - La flag podría ser descriptiva del comportamiento malicioso
+
+## Archivos generados
+- apk_decoded/ (apktool)
+- jadx_out/ (jadx decompiled)

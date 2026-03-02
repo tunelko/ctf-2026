@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wallet Ledger - Cosmic Components Co.</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Template Engine: Jinja2 v3.1.2 (Flask 2.3.x) - Debug mode: context variables exposed -->
+    <!-- FIXME: Disable template debugging in production - app/config/request objects leak in error messages -->
+    <meta name="csrf-token" content="IjZjY2Q1ZmQ4MmYwNzVmYzM5NDExMDE1NGVlNTY4NTYwY2ZlYzNkY2Ei.aaF3QA.Ksk6BkrwiIHjnZcSJiljsBFAO5E">
+    <script>
+        // Helper to get CSRF token for AJAX requests
+        function getCSRFToken() {
+            return document.querySelector('meta[name="csrf-token"]').content;
+        }
+    </script>
+</head>
+<body>
+    
+    <header>
+        <div class="container">
+            <div class="header-left">
+                <a href="/shop" class="logo">
+                    <img src="/static/img/Logo.png" alt="Cosmic Components Co." class="logo-img">
+                </a>
+                <div class="user-status">
+                    <span class="tier-badge gold">
+                        Gold
+                    </span>
+                </div>
+            </div>
+            <nav>
+                <a href="/shop" class="nav-link">Shop</a>
+                <a href="/cart" class="nav-link">Cart</a>
+                <a href="/account" class="nav-link">Account</a>
+                <a href="/wallet-ledger" class="nav-link">Ledger</a>
+                <a href="/flag" class="nav-link elite-forum-link">Elite Forum</a>
+                <div class="balance-info">
+                    <div class="balance-item bbd-balance" data-tooltip="billions and billions of Dollars">
+                        <span class="balance-label">BBD</span>
+                        <span class="balance-value">200.36</span>
+                    </div>
+                    
+                </div>
+                <a href="/logout" class="nav-link logout-link">Logout</a>
+            </nav>
+        </div>
+    </header>
+    
+    
+    <div class="container">
+        
+            
+        
+        
+        
+<div class="card">
+    <h2>💰 Wallet Ledger</h2>
+    
+    <p style="color: #888; margin-bottom: 20px;">
+        Complete transaction history for your account. Check for any inconsistencies!
+    </p>
+    
+    <div style="overflow-x: auto;">
+        <table class="ledger-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Initial Credit - BBD 100.00</td>
+                    <td class="amount-positive">
+                        +BBD 100.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 100.00
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Status: Welcome, Rookie Customer!</td>
+                    <td class="">
+                        BBD 0.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 100.00
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Status: Promoted to Silver Customer</td>
+                    <td class="">
+                        BBD 0.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 100.00
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Customer Loyalty Reward - +BBD 100.00</td>
+                    <td class="amount-positive">
+                        +BBD 100.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 200.00
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Purchase: Quantum RAM Stick (×1)</td>
+                    <td class="amount-negative">
+                        BBD -0.10
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 199.90
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Status: Promoted to Gold Customer</td>
+                    <td class="">
+                        BBD 0.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 199.90
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Customer Loyalty Reward - +BBD 100.00</td>
+                    <td class="amount-positive">
+                        +BBD 100.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 299.90
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:50</td>
+                    <td>Purchase: Neutrino SSD Drive (×1)</td>
+                    <td class="amount-negative">
+                        BBD -89.54
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 210.36
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td>2026-02-27 10:51</td>
+                    <td>Purchase: Ion Starter Voucher (×1)</td>
+                    <td class="amount-negative">
+                        BBD -10.00
+                    </td>
+                    <td style="color: #00ff88; font-weight: bold;">
+                        BBD 200.36
+                    </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/account" class="btn btn-secondary">← Back to Account</a>
+    </div>
+</div>
+
+    </div>
+    
+    <!-- Tier Promotion Modal -->
+    
+    <div id="tierModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-icon">🎉</div>
+            <h2>Congratulations!</h2>
+            <p class="modal-message">
+                Thank you for your purchase at <strong>Cosmic Components Co.</strong>!
+            </p>
+            <div class="modal-highlight">
+                <p>You have been promoted to <strong class="tier-name">Gold Customer</strong>!</p>
+            </div>
+            <p class="modal-reward">
+                As a token of our appreciation, we've added <strong style="color: var(--accent-color);">BBD 100.00</strong> to your wallet!
+            </p>
+            <p class="modal-footer">
+                You can now access more exclusive products in our premium catalog.
+            </p>
+            <button onclick="closeModal()" class="btn btn-primary">Continue Shopping</button>
+        </div>
+    </div>
+    <script>
+        function closeModal() {
+            document.getElementById('tierModal').style.display = 'none';
+            // Clear the session promotion flag
+            const formData = new FormData();
+            formData.append('csrf_token', getCSRFToken());
+            fetch('/clear-promotion', {
+                method: 'POST',
+                body: formData
+            });
+        }
+        // Auto-show modal on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('tierModal').style.display = 'flex';
+        });
+    </script>
+    
+    
+    
+    
+    <!-- DEV NOTES: Admin panel accessible at /admin/dashboard (requires admin role in JWT) -->
+    <!-- GraphQL endpoint: /graphql - Schema introspection enabled for debugging -->
+    <!-- Legacy API (deprecated): /api/v1/users/{id}/wallet - PATCH method for balance adjustments -->
+</body>
+</html>

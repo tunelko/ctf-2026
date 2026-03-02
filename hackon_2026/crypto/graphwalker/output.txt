@@ -1,0 +1,8 @@
+=== Graph Walker ===
+Prime: 100003
+Seed A: 327df81fac6c72b3a855bb549fb2e38a
+Seed B: a80cc5746f7213b7be71a6a406d39da2
+Target: Mat(58678, 49100, 67323, 28706)
+EncFlag: af8b7e84412f01b4612771fdc146fc790d897566d3b223425d726a0c6cf17aa4
+
+Path len: 48

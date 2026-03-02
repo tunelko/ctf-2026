@@ -1,0 +1,7 @@
+services:
+  app:
+    build: .
+    container_name: secure-sign
+    ports:
+      - 7000:7000
+    restart: unless-stopped
