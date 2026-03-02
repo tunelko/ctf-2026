@@ -56,6 +56,7 @@ With `role=admin`, the bio is injected directly into a Jinja2 template via `rend
 
 The `/fetch` endpoint blocks `127.0.0.1` and `localhost` but allows `169.254.169.254` (AWS-style IMDS).
 
+![megacorp EHAX](megacorp_EHAX.png)
 ```
 POST /fetch
 url=http://169.254.169.254/latest/meta-data/flag
