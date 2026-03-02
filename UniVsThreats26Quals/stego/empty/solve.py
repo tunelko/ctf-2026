@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-# solve.py — Empty stego solver
+# solve.py
 # Usage: python3 solve.py
 
 import struct
 from PIL import Image
 import numpy as np
-
-# Step 1: Extract ZIP password from empty.png blue channel LSB (every 3rd pixel)
+# Extract ZIP password from empty.png blue channel LSB (every 3rd pixel)
 img = Image.open('files/empty.png')
 data = np.array(img)
 blue = data[:,:,2].flatten()
@@ -18,8 +17,7 @@ password_str = password_bytes.decode('ascii', errors='ignore').strip('\xff\x00')
 # Extract password value
 pwd = password_str.split('=')[1].split(';')[0]
 print(f"[+] ZIP Password: {pwd}")
-
-# Step 2: Extract hidden ZIP from zero-width characters in empty.js
+# Extract hidden ZIP from zero-width characters in empty.js
 with open('files/empty.js', 'r', encoding='utf-8') as f:
     content = f.read()
 
@@ -35,13 +33,11 @@ zip_data = bytes(int(bits[i:i+8], 2) for i in range(0, len(bits)-7, 8))
 with open('/tmp/hidden.zip', 'wb') as f:
     f.write(zip_data)
 print(f"[+] Extracted hidden ZIP: {len(zip_data)} bytes")
-
-# Step 3: Extract ZIP with password using 7z
+# Extract ZIP with password using 7z
 import subprocess
 subprocess.run(['7z', 'x', '/tmp/hidden.zip', f'-p{pwd}', '-o/tmp/extracted', '-y'],
                capture_output=True)
-
-# Step 4: Read flag from flag.png (appended after IEND chunk)
+# Read flag from flag.png (appended after IEND chunk)
 with open('/tmp/extracted/flag.png', 'rb') as f:
     raw = f.read()
 

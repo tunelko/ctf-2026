@@ -14,34 +14,26 @@ crackme.exe: PE32+ executable (console) x86-64, for MS Windows, 15 sections
 4.7MB PE64 binary. Main function at `0x140114280` contains a 10-case switch statement processing stages 0-9 sequentially. The flag is built incrementally from all stage outputs.
 
 ## Stage Breakdown
-
-### Stage 0 — String Compare
+### String Compare
 `fcn.1401156f0`: Direct comparison with `"UVT{"` stored at `0x14030d7a0`.
-
-### Stage 1 — Generator
+### Generator
 `fcn.140115860` calls `fcn.140115aa0` which builds `"Kr4"` byte-by-byte (0x4b, 0x72, 0x34).
-
-### Stage 2 — Custom XOR/Multiply Check
+### Custom XOR/Multiply Check
 `fcn.140115b80`: For each byte i: `expected[i] = ((i*0x11 + 0x6d) ^ input[i]) + 0x13 + (i*7)`
 Expected: `pack("<II", 0xfadc2431, 0xc5e42c25)` → **`st4rG4te`**
-
-### Stage 3 — Custom Check
+### Custom Check
 `fcn.1401164a0`: For each byte i: `expected[i] = ((0xa7 - i*0xb) ^ input[i]) + i*3`
 Expected: `pack("<II", 0xeda7d1d7, 0x49683954)` → **`pR0b3Z3n`**
-
-### Stage 4 — VM Execution
+### VM Execution
 `fcn.140117780`: 56-byte bytecode VM interpreter. No input needed, produces flag fragment automatically.
-
-### Stage 5 — Payload Extraction
+### Payload Extraction
 `fcn.14011a330`: Extracts embedded artifacts to `uvt_crackme_work/stage2/`:
 - `starfield_pings/pings.txt`
 - `logs/system.log`
 - `void/zen_void.bin`
-
-### Stage 6 — Internal Processing
+### Internal Processing
 Inline in main. Processes extracted data and produces flag fragment. Combined stages 0-6 output: `UVT{Kr4cK_M3_N0w-cR4Km3_THEN-5T4rf13Ld_piNgS_`
-
-### Stage 7 — Starfield Pings (5-bit Decoder)
+### Starfield Pings (5-bit Decoder)
 
 File: `pings.txt` — Filter `ttl=1337` entries (15 pings). Time values = 5-bit indices (subtract 64).
 
@@ -54,8 +46,7 @@ For each 5-bit value:
 - Odd value → `odd_map[(value-1)/2]`
 
 Result: **`uR_pR0b3Z_xTND-`**
-
-### Stage 8 — Zen Log Fragments
+### Zen Log Fragments
 
 File: `system.log` — 3 zen telemetry_rollup entries with `k` (XOR key) and `fragx` (XOR-masked hex).
 
@@ -73,8 +64,7 @@ File: `zen_void.bin` — 128KB file with two void ranges:
 - Range B (0x9000-0xF000): Contains real islands
 
 XOR island at 0xa1b2 with key 0x2a → **`1n_v01D_`**
-
-### Stage 9 — Derived Key Island
+### Derived Key Island
 
 Key = `sum(bytes("1n_v01D_")) % 256 = 0x78`
 
