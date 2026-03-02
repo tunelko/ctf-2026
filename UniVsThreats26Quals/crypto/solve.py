@@ -9,7 +9,7 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import unpad
 from fpylll import IntegerMatrix, LLL
 
-# ======== STEP 1: Bruteforce epoch time from hash ========
+# Bruteforce epoch time from hash ========
 def find_epoch_time(target_hash):
     for h in range(24):
         for m in range(60):
@@ -20,7 +20,7 @@ def find_epoch_time(target_hash):
                     return h, m, s
     raise ValueError("Epoch time not found")
 
-# ======== STEP 2: Derive LCG params from Halley's comet ========
+# Derive LCG params from Halley's comet ========
 def derive_ab(year, month, day, hour, minute, second):
     from skyfield.api import load
     from skyfield.data import mpc
@@ -51,7 +51,7 @@ def derive_ab(year, month, day, hour, minute, second):
     h_b = hashlib.sha512((coord_string + "_B").encode()).digest()
     return bytes_to_long(h_a), bytes_to_long(h_b)
 
-# ======== STEP 3: Solve truncated LCG via lattice CVP ========
+# Solve truncated LCG via lattice CVP ========
 def solve_truncated_lcg(a, b, p, steps, t_vals, unknown_bits):
     U = unknown_bits
     two_U = 1 << U
@@ -135,8 +135,7 @@ def main():
     print("[*] Solving truncated LCG via lattice reduction...")
     s_0, compose = solve_truncated_lcg(a, b, p, STEPS, t_vals, UNKNOWN_BITS)
     print(f"[+] Recovered s_0 = {s_0}")
-
-    # Step 4: Compute final state (one step after last STEP=28 → step 29)
+# Compute final state (one step after last STEP=28 → step 29)
     A_29, B_29 = compose(29)
     final_state = (A_29 * s_0 + B_29) % p
 

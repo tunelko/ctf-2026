@@ -60,28 +60,23 @@ def main():
     print(f"[*] token:       {token.decode()}")
 
     # === DECRYPTION (mirrors binary logic at 0x1300-0x15b2) ===
-
-    # Step 1: SHA256(nav.bc) → 32-byte hash
+# SHA256(nav.bc) → 32-byte hash
     nav_hash = hashlib.sha256(nav).digest()
     print(f"\n[1] SHA256(nav.bc)       = {nav_hash.hex()}")
-
-    # Step 2: Build combined buffer = seed32 || token || nav_hash
+# Build combined buffer = seed32 || token || nav_hash
     combined = seed + token + nav_hash
     print(f"[2] combined buffer     = {len(combined)} bytes "
           f"(seed:{len(seed)} + token:{len(token)} + hash:32)")
-
-    # Step 3: SHA256(combined) → 32-byte XOR key
+# SHA256(combined) → 32-byte XOR key
     xor_key = hashlib.sha256(combined).digest()
     print(f"[3] SHA256(combined)    = {xor_key.hex()}")
-
-    # Step 4: XOR decrypt payload
+# XOR decrypt payload
     decrypted = bytearray(len(payload))
     for i in range(len(payload)):
         decrypted[i] = payload[i] ^ xor_key[i & 0x1f]
 
     print(f"[4] XOR decrypt         = {decrypted.hex()}")
-
-    # Step 5: Verify UVT{ magic (binary checks dword == 0x7b545655 at 0x15b2)
+# Verify UVT{ magic (binary checks dword == 0x7b545655 at 0x15b2)
     if decrypted[:4] == b"UVT{":
         flag = decrypted.decode()
         print(f"\n{'='*60}")

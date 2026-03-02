@@ -41,17 +41,13 @@ Key observations:
 | `/flag` | 302 Redirect | Requires admin |
 
 ## Exploitation
-
-### Step 1: JWT kid Path Traversal
+# JWT kid Path Traversal
 Set `kid` to `/dev/null` — this file is always empty on Linux, so the HMAC signing key becomes an empty string `""`. We can now sign any payload we want.
-
-### Step 2: Role Escalation (Not Enough)
+# Role Escalation (Not Enough)
 Changing `role` to `captain`/`admin` changes the clearance display on `/my-account` but doesn't grant access to `/admin` (still 403). The authorization check is based on the **`sub` field**, not `role`.
-
-### Step 3: User Enumeration
+# User Enumeration
 The 403 page says "You are logged in as: pilot_001". Brute-forcing the `sub` value reveals `administrator` grants access.
-
-### Step 4: Forged Admin Token
+# Forged Admin Token
 ```python
 token = jwt.encode(
     {'sub': 'administrator', 'role': 'admin', 'iat': 1772184187},
@@ -60,8 +56,7 @@ token = jwt.encode(
     headers={'alg': 'HS256', 'typ': 'JWT', 'kid': '/dev/null'}
 )
 ```
-
-### Step 5: Flag Retrieval
+# Flag Retrieval
 Access `/flag` with the forged token → flag returned.
 
 ## Scripts
