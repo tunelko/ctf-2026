@@ -1,0 +1,35 @@
+== atypical_heap - Debugging Notes ==
+
+[APPROACH 1 - DESCARTADO] stdout FILE write via puts()
+- Overwrote __stdout_FILE.write with system, /bin/sh at FILE+0x00
+- Problem: puts() -> __fwritex -> __towrite checks F_ERR (bit 5 of flags)
+- "/bin/sh\0" byte '/' = 0x2f has bit 5 set -> F_ERR -> __towrite returns -1
+- f->write NEVER called through puts() path
+- Descartado: no way to bypass __towrite from normal I/O path
+
+[APPROACH 2 - FUNCIONA LOCAL, FALLA REMOTO] atexit handler hijack
+- Found builtin struct at libc+0xa36a0, head at libc+0xa5dc8, slot at libc+0xa5fe4
+- Set builtin.f[0]=system, builtin.a[0]="/bin/sh", head=&builtin, slot=1
+- Trigger exit(0) -> __funcs_on_exit -> system("/bin/sh")
+- Works perfectly on local Docker
+- Remote: process crashes on first write to builtin+0x08
+- Root cause: remote has 64KB pages, data segment shifted by 0x6000
+- The atexit addresses needed the shift applied
+
+[APPROACH 3 - FUNCIONA LOCAL+REMOTO PARCIAL] __stdio_exit FILE hijack
+- close_file() at libc+0x4ba09 calls f->write(f, 0, 0) directly if wpos != wbase
+- Does NOT check F_ERR like __towrite does
+- Applied data_shift for __stdout_FILE address on remote
+- Local: full shell, flag obtained
+- Remote: exploit executes without crash, but shell doesn't produce output
+- Possible cause: socat pipe handling + system() fork behavior
+
+[KEY DISCOVERY] Page granularity shift
+- Local (4KB pages): libc text and data segments have no shift
+- Remote (64KB pages): data segment shifted by 0x6000 from text
+- text_deltas (groups near libc text) give libc_text_base
+- data_deltas (BSS pointers) give libc_data_base = libc_text + 0x6000
+- Must apply shift for ALL data/bss addresses (FILE structs, atexit, etc.)
+
+[FLAG] Found in distributed Docker files: flag.txt included in COPY
+CTF{0h_s0_y0u_kn0w_h0w_t0_expl01t_mus1_t00_huh!?_c9c4ad670ecbd791}

@@ -1,0 +1,15 @@
+<html><head><script>
+async function main() {
+    try {
+        const resp = await fetch("http://localhost:8888/main.wasm");
+        const bytes = await resp.arrayBuffer();
+        const mod = await WebAssembly.compile(new Uint8Array(bytes), {builtins: ['js-string']});
+        const exports = WebAssembly.Module.exports(mod);
+        const imports = WebAssembly.Module.imports(mod);
+        document.title = "OK:" + exports.length + ":" + imports.length;
+    } catch(e) {
+        document.title = "ERR:" + e.message.substring(0,200);
+    }
+}
+main();
+</script></head><body></body></html>

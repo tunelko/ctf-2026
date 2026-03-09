@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>svfgp notes</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body data-boot="{&#34;mode&#34;:&#34;view&#34;,&#34;q&#34;:&#34;&#34;,&#34;sid&#34;:&#34;&#34;,&#34;rid&#34;:&#34;&#34;,&#34;note&#34;:&#34;&#34;}">
+    <main class="shell">
+      <header class="hero">
+        <h1>svfgp notes</h1>
+        <p>local-first encrypted notes</p>
+      </header>
+
+      <section id="probePane" class="pane" hidden>
+        <p id="probeStatus"></p>
+      </section>
+
+      <section id="notesPane" class="pane">
+        <div id="sharedNote" class="card" hidden>
+          <h2>Shared note</h2>
+          <h3 id="sharedTitle"></h3>
+          <div id="sharedContent"></div>
+          <button id="saveShared">save to my notes</button>
+        </div>
+
+        <div class="grid">
+          <article class="card">
+            <h2>Create note</h2>
+            <form id="createForm" class="stack">
+              <label for="noteTitle">title</label>
+              <input id="noteTitle" name="title" maxlength="64" required />
+              <label for="noteBody">content <small>(html ok)</small></label>
+              <textarea id="noteBody" name="body" maxlength="4096" required></textarea>
+              <button type="submit">save note</button>
+            </form>
+          </article>
+
+          <article class="card">
+            <h2>My notes</h2>
+            <form id="searchForm" class="inline">
+              <input id="searchInput" name="q" placeholder="search…" />
+              <button type="submit">search</button>
+            </form>
+            <p id="searchMeta" class="meta"></p>
+            <div id="resultList" class="stack"></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/purify.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

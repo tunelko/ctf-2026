@@ -1,0 +1,31 @@
+nday1 — Apache Airflow 3.0.4 n-day
+
+== Approaches descartados ==
+
+1. dag_run.conf injection en BashOperator
+   - example_bash_operator tasks usan comandos hardcodeados
+   - conf no se consume en bash_command de ninguna task
+
+2. Template injection via params
+   - example_passing_params_via_test_command tiene {{ params.foo }} pero falla
+     con UndefinedError y el bash_command no es controllable
+
+3. file_token forgery
+   - itsdangerous URLSafeTimedSerializer, secret_key desconocido
+   - bruteforce fallo con: temporary_key, airflow, secret, default_key, etc.
+
+4. Connection testing → disabled
+5. Config endpoint → 403
+6. URL directa con ; → httpx no parsea URLs invalidas
+
+== Solucion ==
+
+CVE-2025-54941: example_dag_decorator interpola raw_json["origin"] en f-string
+sin sanitizar, y ese f-string va a BashOperator. Servidor mock retorna
+{"origin": "'; cat /flag* ; echo '"} y el shell ejecuta cat /flag*.
+
+== Timing notes ==
+
+- logical_date DEBE ser pasada para ejecucion inmediata
+- DAG runs con logical_date futura quedan en "queued" hasta esa hora
+- El scheduler revisa run_after, no queued_at
