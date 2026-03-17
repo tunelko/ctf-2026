@@ -1,9 +1,0 @@
-services:
-  pixel_perfect:
-    image: pixel_perfect
-    build:
-      context: .
-    container_name: pixel_perfect
-    ports:
-      - "50001:50001"
-    restart: unless-stopped
