@@ -1,0 +1,45 @@
+# Secure ELF Singing Spec (SELF-Signed)
+
+## Key Format
+
+Public and private keys are distributed in the following format:
+
+key-type || ':' || key-role || ':' || base64-encoded key data
+
+Currently, only ed25519 keys are supported.  `key-role` may be either 'public' or 'private'.
+
+## Binary Serialization
+
+Serialization of structures for hashing, signing, or wire-format representations are done
+by CBOR (RFC 8949) with CDE rules for determinism.
+
+## ELF Signing
+
+### Hashing
+
+All hashing is done with SHA-256 as the hash.
+
+The hashable state of the binary is represented by the following:
+
+- The ELF File Header
+- A dictionary of section name to the contents of the section header unless the section does not have the ALLOC flag.
+- A dictionary of section name to the hash of the contents of the section contents unless the section does not have
+  the ALLOC flag or the section type is SHT_NOBITS.
+
+This is serialized to a byte stream which is hashed for the final file hash.
+
+### Signing Process
+
+First, an unsigned ELF binary has a new (empty) section added called `.selfsigned`.  This section is large enough to
+hold the final signature.  This is added first so that all the section headers, section string table, and program header
+are unaffected by the signing operation itself.
+
+Next, the hash is computed as described above. Ed25519 is used with the private key to sign this value. The public key,
+the file hash, and the signature are all serialized and inserted into the special .selfsigned section.
+
+## ELF Verification
+
+Verification is straight forward. First, the signature is loaded from the `.selfsigned` section. Next, the file
+hash is computed as above, and compared to the value in the signature. The public key in the signature section is
+compared against the allowlist of public keys. Finally, the signature is verified via an Ed25519 operation. If all
+of these check out, then the file is allowed to run.

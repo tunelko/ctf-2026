@@ -1,0 +1,4 @@
+Challenge: XSS One
+URL: https://web-tutorial-1-0c19a827.challenges.bsidessf.net/
+Flag path: /xss-one-flag
+Author: itsc0rg1
