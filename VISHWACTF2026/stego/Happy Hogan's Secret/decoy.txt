@@ -1,0 +1,2 @@
+VishwaCTF{H4ppy_H0g4n_1s_Sma4rt_But_N0t_Th1s_Much}
+Hint: The flag is in the audio metadata, not this text file.

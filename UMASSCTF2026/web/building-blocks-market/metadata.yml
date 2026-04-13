@@ -1,0 +1,11 @@
+version: beta1
+name: Building Blocks Market
+category: Web Exploitation
+description: I have this ultra rare Star Wars set that I want to sell, but the admin
+  of the site thinks it's fake! Can you help me figure out a way?
+value: 469
+solves: 29
+tags:
+- web
+- medium
+connection_info: http://buildingblocksmarket.web.ctf.umasscybersec.org:5000/instance

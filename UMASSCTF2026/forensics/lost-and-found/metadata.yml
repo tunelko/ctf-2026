@@ -1,0 +1,19 @@
+version: beta1
+name: Lost and Found
+category: Forensics
+description: 'Help! I was running commands on my ultra minimalistic Linux VM when
+  I installed my favorite package and everything turned into nonsense!
+
+  [LINK TO DOWNLOADABLE ASSETS](https://storage.googleapis.com/umassctf26-static/forensics-lost-and-found/ctf-vm.ova)'
+value: 218
+solves: 85
+tags:
+- disk-forensics
+- crypto
+hints:
+- cost: 0
+  title: Hint 1
+  content: Credentials are root, empty password
+- cost: 0
+  title: Hint 2
+  content: the command 'history' does not print the history file

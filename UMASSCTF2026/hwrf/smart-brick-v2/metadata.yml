@@ -1,0 +1,24 @@
+version: beta1
+name: Smart Brick v2
+category: Hardware
+description: I managed to get my hands on a design files from LEGO HQ. Apparently
+  it is the design for the new Smart Brick v2. I want to analyze it but I don't have
+  the hardware to do so. Can you help me figure out what it does??"
+value: 100
+solves: 119
+tags:
+- hardware
+- PCB
+- medium
+hints:
+- cost: 0
+  title: Hint 1
+  content: I think I have seen that file format before on an popular open-source eCAD
+    software but I can't remember which one...
+- cost: 0
+  title: Hint 2
+  content: Hmmm... there seem to be 7 inputs, I wonder what encoding uses only 7 bits?
+- cost: 0
+  title: Hint 3
+  content: 'I found a great python library to interact with this file programmatically:
+    kiutils'

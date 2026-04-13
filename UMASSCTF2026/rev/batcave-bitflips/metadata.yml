@@ -1,0 +1,21 @@
+version: beta1
+name: Batcave Bitflips
+category: Reverse Engineering
+description: Batman's new state-of-the-art AI agent has deleted all of the source
+  code to the Batcave license verification program! There's an old debug version lying
+  around, but that thing has been hit by more cosmic rays than Superman!
+value: 100
+solves: 178
+tags:
+- rev
+- medium
+hints:
+- cost: 0
+  title: Hint 1
+  content: BatAI estimates there are 3 bugs
+- cost: 0
+  title: Hint 2
+  content: Rotation rotation rotation!
+- cost: 0
+  title: Hint 3
+  content: Something about that SBOX seems off...

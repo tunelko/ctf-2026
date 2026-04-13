@@ -1,0 +1,15 @@
+version: beta1
+name: Brick City Office Space
+category: Binary Exploitation
+description: Help design the office space for Brick City's new skyscraper! *read flag.txt
+  for design specifications*
+value: 100
+solves: 173
+tags:
+- pwn
+- easy
+connection_info: nc brick-city-office-space.pwn.ctf.umasscybersec.org 45001
+hints:
+- cost: 0
+  title: Hint 1
+  content: We're using a new %format for the TPS reports. Did you get my memo?

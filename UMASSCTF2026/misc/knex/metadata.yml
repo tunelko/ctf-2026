@@ -1,0 +1,17 @@
+version: beta1
+name: knex
+category: Miscellaneous
+description: 'You''ve never seen a Bespoke Puzzle Chunk Splice (BPCS) challenge like
+  this before!
+
+  [LINK TO DOWNLOADABLE ASSETS](https://storage.googleapis.com/umassctf26-static/misc-knex/DOWNLOADABLE_ASSETS.zip)'
+value: 430
+solves: 43
+tags:
+- misc
+- steganography
+- hard
+hints:
+- cost: 0
+  title: Hint 1
+  content: alpha = 0.45

@@ -1,0 +1,20 @@
+version: beta1
+name: Bricktator
+category: Web Exploitation
+description: 'The Bricktator must be stopped! The mission all falls to you now.
+
+  Note: Challenge restarts every 30 minutes at the xx:00 and xx:30 mark. If your solve
+  gets cut off unexpectedly, just try again.
+
+  (Read the dossier.txt file)
+
+  (If you''re brute forcing more than few minutes, you''re doing it wrong)
+
+  (Please be nice to infra, have a local solve first)'
+value: 416
+solves: 47
+tags:
+- web
+- hard(?)
+- crypto (sorry)
+connection_info: http://bricktator.web.ctf.umasscybersec.org:8080

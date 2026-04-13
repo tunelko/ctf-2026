@@ -1,0 +1,8 @@
+version: beta1
+name: Take a Slice
+category: Miscellaneous
+description: It's in the name!
+value: 100
+solves: 122
+tags:
+- easy

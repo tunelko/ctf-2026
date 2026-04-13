@@ -1,0 +1,11 @@
+version: beta1
+name: Turncoat's Treasure
+category: Web Exploitation
+description: After 3 decades of service in the pirate's crew, you have decided that
+  now is a good time to retire. However, you're currently broke, and need a solid
+  fund to live confortably in retirement. Steal the treasure from the captain!
+value: 275
+solves: 76
+tags:
+- web
+connection_info: http://turncoatstreasure.web.ctf.umasscybersec.org:5000/instance

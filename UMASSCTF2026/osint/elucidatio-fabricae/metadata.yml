@@ -1,0 +1,13 @@
+version: beta1
+name: Elucidatio Fabricae
+category: OSINT
+description: 'There''s something fishy going on here...
+
+  Flag format: UMASS{flag}
+
+  Furthermore, the flag can include special characters like spaces and semicolons.'
+value: 500
+solves: 0
+tags:
+- osint
+- medium

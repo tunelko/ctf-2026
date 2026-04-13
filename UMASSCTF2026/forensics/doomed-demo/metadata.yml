@@ -1,0 +1,14 @@
+version: beta1
+name: Doomed Demo
+category: Forensics
+description: My Doom demo is broken! Where did I end up?!
+value: 490
+solves: 17
+tags:
+- game
+- corruption
+- easy
+hints:
+- cost: 0
+  title: Hint 1
+  content: Use WALKTHROUGH.txt!

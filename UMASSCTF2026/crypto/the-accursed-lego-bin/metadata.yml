@@ -1,0 +1,10 @@
+version: beta1
+name: The Accursed Lego Bin
+category: Cryptography
+description: I dropped my message into the bin of Legos. It's all scrambled up now.
+  Please help.
+value: 100
+solves: 259
+tags:
+- crypto
+- easy

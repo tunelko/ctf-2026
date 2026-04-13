@@ -1,0 +1,16 @@
+version: beta1
+name: BrOWSER BOSS FIGHT
+category: Web Exploitation
+description: This familiar brick castle is hiding something... can you break in and
+  defeat the Koopa King?
+value: 100
+solves: 238
+tags:
+- web
+- easy
+connection_info: http://browser-boss-fight.web.ctf.umasscybersec.org:48003
+hints:
+- cost: 0
+  title: Hint 1
+  content: Check what the local script is doing to your key attempts... how could
+    you bypass it?

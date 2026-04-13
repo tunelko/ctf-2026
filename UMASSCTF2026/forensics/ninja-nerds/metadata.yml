@@ -1,0 +1,9 @@
+version: beta1
+name: Ninja-Nerds
+category: Forensics
+description: where are your little ninja-nerds?
+value: 100
+solves: 122
+tags:
+- forensics
+- medium

@@ -1,0 +1,11 @@
+version: beta1
+name: The Block City Times
+category: Web Exploitation
+description: The Block City Times is here to inform you!
+value: 124
+solves: 98
+tags:
+- web
+- medium
+- xss
+connection_info: http://blockcitytimes.web.ctf.umasscybersec.org:5000/

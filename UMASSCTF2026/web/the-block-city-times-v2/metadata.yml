@@ -1,0 +1,15 @@
+version: beta1
+name: The Block City Times V2
+category: Web Exploitation
+description: 'The Block City Times is here to inform you even better!
+
+  (NOTE: Solve script was accidentally revealed on release, as such, this challenge
+  is worth ZERO points and will not affect your ranking. You are still welcome to
+  play & solve it for learning purposes.)'
+value: 0
+solves: 22
+tags:
+- web
+- mediium
+- xss
+connection_info: http://blockcitytimesv2.web.ctf.umasscybersec.org:5000/instance

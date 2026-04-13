@@ -1,0 +1,13 @@
+version: beta1
+name: Unfinished Ninjago Game
+category: Cryptography
+description: I'm writing a ninjago game, but apparently there's some crazy cheat codes
+  someone has already found!? And apparently that's supposed to help decrypt hidden
+  secret stuff by the Overlord?
+value: 500
+solves: 5
+tags:
+- pwn
+- hard
+- crypto
+connection_info: ssh -p 32769 ubuntu@35.236.95.86

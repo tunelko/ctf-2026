@@ -1,0 +1,14 @@
+version: beta1
+name: Factory Monitor
+category: Binary Exploitation
+description: I made a factory monitor to keep an eye on the machines, but it seems
+  to be malfunctioning. Can you help me fix it?
+value: 491
+solves: 16
+tags:
+- medium
+connection_info: nc factory-monitor.pwn.ctf.umasscybersec.org 45000
+hints:
+- cost: 0
+  content: I heard that child processes inherit a lot from their parents. I wonder
+    just how much?

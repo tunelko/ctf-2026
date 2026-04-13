@@ -1,0 +1,9 @@
+version: beta1
+name: ORDER66
+category: Web Exploitation
+description: See if you can figure out what order to execute...
+value: 100
+solves: 130
+tags:
+- easy
+connection_info: http://order66.web.ctf.umasscybersec.org:32768/

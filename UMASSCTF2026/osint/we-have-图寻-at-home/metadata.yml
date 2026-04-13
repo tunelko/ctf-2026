@@ -1,0 +1,15 @@
+version: beta1
+name: We Have 图寻 at Home
+category: OSINT
+description: 'I found a serial NOR flash chip with 1024 KB of capacity running at
+  108Mhz in a children''s toy a while back, but I''ve since lost the chip when I desoldered
+  it to dump it. The only remnant of my search for it was this image I sourced of
+  the office park on the right where the company that made it is located. Can you
+  help me find the name of the chip so I can I replace it?
+
+  Flag format: `UMASS{name of chip on website}`'
+value: 473
+solves: 27
+tags:
+- osint
+- hard
